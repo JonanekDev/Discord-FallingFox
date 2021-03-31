@@ -27,34 +27,35 @@ db.connect((err) => {
     }, 10 * 60 * 1000);
 });
 
-const nadavky = ["kokot", "dement", "pi"]
-
 //Role za Levely
 const RoleZaLevely = [
     {roleID: 707578282253746246, levelNeeded: 30, roleName: "Věrný fanoušek"},
-    {roleID: 707578567692648469, levelNeeded: 60, roleName: "Dlouhodobý fanoušek"},
-    {roleID: 707578176884441150, levelNeeded: 100, roleName: "Lištička"},
-    {roleID: 731195588657545276, levelNeeded: 150, roleName: "Liška"},
-    {roleID: 764857315874308146, levelNeeded: 200, roleName: "Mafianská  Liška"},
-    {roleID: 764857735832666174, levelNeeded: 250, roleName: "Retro Liška"},
-    {roleID: 764857894373949461, levelNeeded: 300, roleName: "CupHead Liška"},
-    {roleID: 764858829351157801, levelNeeded: 400, roleName: "Liška z Bradavic"}
+    {roleID: 707578567692648469, levelNeeded: 80, roleName: "Dlouhodobý fanoušek"},
+    {roleID: 707578176884441150, levelNeeded: 150, roleName: "Lištička"},
+    {roleID: 731195588657545276, levelNeeded: 200, roleName: "Liška"},
+    {roleID: 764854642353504287, levelNeeded: 250, roleName: "Padající Liška"},
+    {roleID: 764857315874308146, levelNeeded: 300, roleName: "Mafianská Liška"},
+    {roleID: 764857735832666174, levelNeeded: 400, roleName: "Retro Liška"},
+    {roleID: 764857894373949461, levelNeeded: 500, roleName: "CupHead Liška"},
+    {roleID: 764858829351157801, levelNeeded: 850, roleName: "Liška z Bradavic"}
 ]
 
 //HELP command
 const ListCommands = [
     {command: "help", popis: "Zobrazí list všech dostupných příkazů"},
     {command: "level [@Uživatel]", popis: "Zobrazí váš aktuální level nebo level zadaného uživatele"},
+    {command: "levely-role", popis: "Zobrazí všechny role, co lze získat za určitý level"},
     {command: "anketa [Otázka]", popis: "Vytvoří hlasování"},
     {command: "leaderboard", popis: "Zobrazí top 5 lidí s nejvyšším levelem a pošle odkaz na webový leaderboard"},
     {command: "random-food", popis: "Zobrazí náhodné jídlo z Redditu"},
     {command: "random-reddit [Název Redditu]", popis: "Zobrazí náhodný post ze zadaného redditu"},
     {command: "linky", popis: "Zobrazí důležité odkazy"},
-    {command: "bot-github", popis: "Zobrazí github bota"},
     {command: "avatar [@Uživatel]", popis: "Zobrazí a zhodnotí váš/někoho avatar"},
     {command: "slap [@Uživatel]", popis: "Pošle uživateli facku"},
     {command: "8ball [Otázka]", popis: "Odpoví ti na jakýkoliv dotaz"},
-    {command: "clear [Počet zpráv]", popis: "Smaže určitý počet zpráv [ADMIN ONLY]"}
+    {command: "clear [Počet zpráv]", popis: "Smaže určitý počet zpráv [ADMIN ONLY]"},
+    {command: "počasi [Název města]", popis: "Vypíše základn informace o počasí v městě"},
+    {command: "user-info [@Uživatel]", popis: "Vypíše informace o uživateli"}
 ]
 
 //Levely
@@ -121,7 +122,7 @@ client.on("ready", () => {
                 {typ: "PLAYING", status: "Fortnajt | fox?leaderboard - Zobrazí nejaktivnější uživatele serveru"},
                 {typ: "PLAYING", status: "Majnkraft | fallingfox.eu - Webový leaderboard serveru"},
                 {typ: "WATCHING", status: "NASA | fox?avatar - Ohodnotí a zobrazí tvůj avatar"},
-                {typ: "LISTENING", status: "podcast Vyhonit Ďábla | fox?slap [@Uživatel] - Pošle uživateli facku"}
+                {typ: "LISTENING", status: "podcast Pohřešovaná | fox?slap [@Uživatel] - Pošle uživateli facku"}
             ]
             const random = Statusy[ Math.floor(Math.random() * Statusy.length)];
             client.user.setActivity(random.status, {type: random.typ});
@@ -158,7 +159,10 @@ client.on("guildMemberAdd", (member) => {
     .addField("Youtube", "https://www.youtube.com/channel/UCfb8dV6IZdj-t0l9eNae3_Q", true)
     .setTimestamp()
     .setFooter("FallingFox Bot | Hello!");
-    member.user.send(HelloEmbed);
+    member.user.send(HelloEmbed)
+    .catch(() => {
+        console.log("Chtěl jsem poslat uživateli zprávu na uvítání, ale nemůžu :(");
+    })
 })
 
 client.on("guildMemberRemove", () => {
@@ -167,7 +171,7 @@ client.on("guildMemberRemove", () => {
 
 //Levels
 client.on("message", (message) => {
-    if(message.content.startsWith(process.env.BOT_PREFIX) || message.author.bot || message.channel.type == "dm") return;
+    if(message.content.startsWith(process.env.BOT_PREFIX) || message.author.bot || message.channel.type == "dm" || message.channel.id == 737375048335360132) return;
 
     db.query("SELECT * FROM `Levely` WHERE `UserID` LIKE '" + message.author.id + "'", (err, result, fields) => {
 
@@ -219,7 +223,7 @@ client.on("message", (message) => {
                         const LevelUPEmbed = new Discord.MessageEmbed()
                         .setTitle("🎉 Dosažení novéh levelu! 🎉")
                         .setColor("#bd7739")
-                        .setDescription("Hej <@" + message.author.id + "> ! Právě jsi byl povýšen na level **" + result[0].Level + "**. Gratulujeme!")
+                        .setDescription("Hej <@" + message.author.id + "> ! Právě jsi byl povýšen na level **" + (result[0].Level + 1) + "**. Gratulujeme!")
                         .setTimestamp()
                         .setFooter("FallingFox Bot | Level System");
                         message.channel.send(LevelUPEmbed);
@@ -284,6 +288,7 @@ client.on("message", async (message) => {
     const prikaz = args.shift().toLocaleLowerCase();
     switch (prikaz) {
         //HELP
+        case "přikazy":
         case "help":
             const HelpEmbed = new Discord.MessageEmbed()
             .setTitle("Help - Dostupné příkazy")
@@ -296,6 +301,7 @@ client.on("message", async (message) => {
             message.channel.send(HelpEmbed);
             break;
         //Level
+        case "rank":
         case "level":
             const uzivatel = message.mentions.users.first() || message.author;
             db.query("SELECT * FROM `Levely` WHERE `UserID` LIKE '" +uzivatel.id + "'", (err, result, fields) => {
@@ -316,6 +322,21 @@ client.on("message", async (message) => {
                     message.channel.send(LevelEmbed);
                 }
             })
+            break;
+        case "levely-role":
+        case "levels-role":
+            let zprava = "";
+            for (let i = 0; i < RoleZaLevely.length; i++) {
+                const role = RoleZaLevely[i];
+                zprava += (i + 1) + ". **" +  role.roleName + "** - Od " + role.levelNeeded + " levelu \n";
+            }
+            const RoleLevelEmbed = new Discord.MessageEmbed()
+            .setTitle("Dostupné role za levely")
+            .setColor("#bd7739")
+            .setDescription(zprava)
+            .setTimestamp()
+            .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
+            message.channel.send(RoleLevelEmbed);
             break;
         case "náhodné-jídlo":
         case "random-jídlo":
@@ -343,27 +364,6 @@ client.on("message", async (message) => {
                 })
             })
             break;
-        
-        case "clear":
-            if(!message.member.hasPermission("MANAGE_MESSAGES")){
-                message.channel.send(EmbedError("Vypadá to, tak že nemáš dostatečná oprávnění na tento příkaz 😕", "Staň se adminem a třeba to budeš moci provést", message.author));
-                return;
-            }else if(!args[0] || isNaN(args[0])){
-                message.channel.send(EmbedError("Vypadá to, tak že jsi nezadal dostatek argumentů nebo argument není čísl 😕", process.env.BOT_PREFIX + "clear [Počet Zpráv]", message.author));
-                return;
-            }
-            message.channel.bulkDelete(Number(args[0]) + 1);
-            const ClearEmbed = new Discord.MessageEmbed()
-            .setTitle("Mazání zpráv proběhlo úspěšně!")
-            .setColor("#bd7739")
-            .setDescription("Bylo smazáno " + args[0] + " zpráv! ||Tato zpráva zmizne za 30 sekund||")
-            .setTimestamp()
-            .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
-            message.channel.send(ClearEmbed)
-            .then(msg => {
-                msg.delete({reason: "Mazání zpráv adminem " + message.author.tag, timeout: 10000})
-            })
-            break;
 
         case "levely-top":
         case "scoreboard":
@@ -382,7 +382,7 @@ client.on("message", async (message) => {
                 for(i = 0; i < result.length; i++){
                     DataDoEmbedu += `${i + 1}. <@${result[i].UserID}>\n`;
                 }
-                DataDoEmbedu += "\n**Chceš vidět celý leaderboard? Můžeš ho vidět zde:** https://fallingfox.eu/";
+                DataDoEmbedu += "\n**Chceš vidět celý leaderboard? Můžeš ho vidět zde:** https://fallingfox.eu/ \n||Data na webovém leaderboardu jsou aktualizována jednou za 15 minut||";
                 LeaderboardEmbed.setDescription(DataDoEmbedu);
                 message.channel.send(LeaderboardEmbed);
             })
@@ -417,6 +417,7 @@ client.on("message", async (message) => {
             }
             break;
         
+        case "odkazy":
         case "linky":
             const linkyEmbed = new Discord.MessageEmbed()
             .setTitle("Důležité odkazy")
@@ -430,6 +431,8 @@ client.on("message", async (message) => {
             .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
             message.channel.send(linkyEmbed);
             break;
+
+        case "dotaz":
         case "anketa":
             const anketa = args.join(" ");
             if(!anketa){
@@ -460,7 +463,25 @@ client.on("message", async (message) => {
             .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
             message.channel.send(githubEmbed);
             break;
-
+        case "user-info":
+            const member = message.mentions.members.first() || message.member;
+            const UserInfo = new Discord.MessageEmbed()
+            .setTitle("Informace o uživateli - " + member.user.tag)
+            .setColor("#bd7739")
+            .addField("Datum vytvoření účtu", member.user.createdAt, true)
+            .addField("Datum připojení na server", member.joinedAt, true)
+            .addField("Může ho bot zabanovat", member.bannable, true)
+            .addField("Status uživatele", member.presence.status, true)
+            .addField("Datum zaslání poslední zprávy", member.lastMessage.createdAt, true)
+            .addField("Poslední zaslaná zpráva", member.lastMessage.content, true)
+            .addField("ID Uižvatele", member.user.id, true)
+            .addField("Nejvyšší role uižvatele", member.roles.highest.name, true)
+            .setThumbnail(member.user.displayAvatarURL())
+            .setTimestamp()
+            .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
+            message.channel.send(UserInfo);
+            break;
+        case "profilovka":
         case "avatar":
             const user = message.mentions.users.first() || message.author;
             const hodnoceni = ["Tak hnusnej avatar jsem ještě neviděl", "KAMOOO FUJ NOČNÍ MŮRY BUDU MÍT Z TOHO", "Vypadáš celkem dobře, ale Jirka vypadá stále líp", "I rozježděnej pes vypadá lépe než ty", "No ty vole. Blít se mi chce", "Vypadá vcelku dobře", "Najs fotka <3 Nezajdeme někdy někam?", "Vypadáš jak po zásahu elektřinou", "OOO KURVÁ", "Nevysral se ti náhodou na obličej pes? Vypadá to tak", "Ale tak v celku v pohodě avatar", "Asi jsem oslepl z toho, jak moc jsi hnusnej", "Asi jsem oslepl z toho, jak moc jsi překrásnej", "I můj tvůrce vypadá líp než ty"];
@@ -468,22 +489,32 @@ client.on("message", async (message) => {
             .setTitle("Hodnocení avatara uživatele - " + user.tag)
             .setColor("#bd7739")
             .setDescription(hodnoceni[Math.floor(Math.random() * hodnoceni.length)])
-            .setImage(user.avatarURL())
+            .setImage(user.displayAvatarURL())
             .setTimestamp()
             .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
             message.channel.send(avatarEmbed);
             break;
         case "facka":
         case "slap":
-            if(!message.mentions.users.first()){
+            const tejpek = message.mentions.users.first();
+            const slapGify = ["https://media2.giphy.com/media/26uf3m46sDFVPedig/source.gif", "https://media2.giphy.com/media/l2SpSQLpViJk9vhmg/200_d.gif", "https://media0.giphy.com/media/l41YtWUr1CGntlR1C/source.gif", "https://media2.giphy.com/media/xT9IgzTnZHL9zp6IPS/source.gif", "https://media2.giphy.com/media/1zjd1s1GCubSkmp94F/giphy.gif", "https://media2.giphy.com/media/i25ciUjc3ZfOw/giphy.gif", "https://reactions.gifs.ninja/r/df4b1d9.gif", "https://24.media.tumblr.com/848bce754d3bb524c1e71a781fdb71c4/tumblr_miqv4no2lr1rjlk07o1_400.gif", "https://24.media.tumblr.com/0ab9301964e1024acb8cf9016fc4cf23/tumblr_n00o29MxQZ1qkxtdao1_400.gif", "https://www.uproxx.com/tv/wp-content/uploads/2012/06/tumblr_lydfx4Zqjd1r4bg1q.gif", "https://media3.giphy.com/media/xUOwGnf0f118Hrtgk0/source.gif", "https://media.tenor.com/images/3ccfad9cb027d3515e409b4e0f4f3873/tenor.gif"];
+            if(!tejpek){
                 message.channel.send(EmbedError("Vypadá to, tak že jsi nezadal dostatečný počet argumentů 😕", process.env.BOT_PREFIX + "anketa [@Uživatel]", message.author));
-            }else{
-                const user = message.mentions.users.first();
-                const slapGify = ["https://media2.giphy.com/media/26uf3m46sDFVPedig/source.gif", "https://media2.giphy.com/media/l2SpSQLpViJk9vhmg/200_d.gif", "https://media0.giphy.com/media/l41YtWUr1CGntlR1C/source.gif", "https://media2.giphy.com/media/xT9IgzTnZHL9zp6IPS/source.gif", "https://media2.giphy.com/media/1zjd1s1GCubSkmp94F/giphy.gif", "https://media2.giphy.com/media/i25ciUjc3ZfOw/giphy.gif", "https://reactions.gifs.ninja/r/df4b1d9.gif", "https://24.media.tumblr.com/848bce754d3bb524c1e71a781fdb71c4/tumblr_miqv4no2lr1rjlk07o1_400.gif", "https://24.media.tumblr.com/0ab9301964e1024acb8cf9016fc4cf23/tumblr_n00o29MxQZ1qkxtdao1_400.gif", "https://www.uproxx.com/tv/wp-content/uploads/2012/06/tumblr_lydfx4Zqjd1r4bg1q.gif", "https://media3.giphy.com/media/xUOwGnf0f118Hrtgk0/source.gif", "https://media.tenor.com/images/3ccfad9cb027d3515e409b4e0f4f3873/tenor.gif"];
+            }else if(tejpek.id == 515589624127684623){
+                message.delete();
                 const SlapEmbed = new Discord.MessageEmbed()
-                .setTitle("Facka pro " + user.username)
+                .setTitle("Facka pro " + message.author.username)
                 .setColor("#bd7739")
-                .setDescription("Hej <@" + user.id + "> letí pro tebe facka!")
+                .setDescription("Hej <@" +  message.author.id + "> letí pro tebe facka, protože <@515589624127684623> se nesmí fackovat!")
+                .setImage(slapGify[Math.floor(Math.random() * slapGify.length)])
+                .setTimestamp()
+                .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
+                message.channel.send(SlapEmbed);
+            }else{
+                const SlapEmbed = new Discord.MessageEmbed()
+                .setTitle("Facka pro " + tejpek.username)
+                .setColor("#bd7739")
+                .setDescription("Hej <@" + tejpek.id + "> letí pro tebe facka!")
                 .setImage(slapGify[Math.floor(Math.random() * slapGify.length)])
                 .setTimestamp()
                 .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
@@ -515,7 +546,64 @@ client.on("message", async (message) => {
                 message.channel.send(BallEmbed);
             }
             break;
-    
+
+        case "počasi":
+        case "pocasi":
+        case "počasí":
+        case "weather":
+            if(!args[0]){
+                message.channel.send(EmbedError("Vypadá to, tak že jsi nezadal dostatečný počet argumentů 😕", process.env.BOT_PREFIX + "počasi [Město]", message.author));
+            }else{
+                const mesto = args.join(" ");
+                axios.get("https://api.openweathermap.org/data/2.5/weather?q=" + encodeURI(mesto) + "&units=metric&lang=cz&appid=" + process.env.OPEN_WEATHER_API_KEY)
+                .then((data) => {
+                    const api = data.data;
+                    const Pocasi = new Discord.MessageEmbed()
+                    .setTitle("Počasí - " + api.name)
+                    .setColor("#bd7739")
+                    .addField("Počasí", api.weather[0].description, true)
+                    .addField("Aktuální teplota", api.main.temp + "°C", true)
+                    .addField("Pocitová teplota", api.main.feels_like + "°C", true)
+                    .addField("Rychlost větru", api.wind.speed + "m/s", true)
+                    .addField("Vlhkost", api.main.humidity + "%", true)
+                    .addField("Tlak", api.main.pressure + "hPa", true)
+                    .addField("Viditelnost", api.visibility + "m", true)
+                    .addField("Zkratka státu", api.sys.country, true)
+                    .setThumbnail("http://openweathermap.org/img/wn/" + api.weather[0].icon + "@2x.png")
+                    .setTimestamp()
+                    .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
+                    message.channel.send(Pocasi);
+                })
+                .catch((err) => {
+                    message.channel.send(EmbedError("Vypadá to, tak že jsi zadal neexistující město 🤔", "Zadej nějaké kvalitní existující město, třeba Prostějov", message.author));
+                })
+            }
+            break;
+        case "clear":
+            if (!message.member.hasPermission("MANAGE_MESSAGES") & message.author.id !== "781556627899547690") {
+                message.channel.send(EmbedError("Vypadá to, tak že nemáš dostatečná oprávnění pro využití tohoto příkazu 🤔", "Staň se adminem tohoto serveru!", message.author));
+            }else if(!args[0] || isNaN(args[0])){
+                message.channel.send(EmbedError("Vypadá to, tak že jsi nezadal argumenty nebo jsi zadal špatný typ argumentů!", process.env.BOT_PREFIX + "clear [Počet zpráv]", message.author));
+            }else{
+                message.channel.bulkDelete(Number(args[0]) + 1)
+                .then(msg => {
+                    const ClearEmbed = new Discord.MessageEmbed()
+                    .setTitle("Mazání zpráv")
+                    .setColor("#bd7739")
+                    .setDescription("Proběhlo smazání **" + msg.size + "**!")
+                    .setTimestamp()
+                    .setFooter("FallingFox Bot | Příkaz zadal/a: " + message.author.tag, message.author.avatarURL());
+                    message.channel.send(ClearEmbed)
+                    .then(sendMessage => {
+                        sendMessage.delete({timeout: 5000});
+                    })
+                })
+                .catch((err) => {
+                    message.channel.send(EmbedError("Vypadá to, tak že se stala chyba při mazání zpráv", "Bot nemůže smazat zprávy starší 2 týdnů", message.author));
+                })
+            }
+            break;
+
         //Akce, když příkaz neexistuje
         default:
             message.channel.send(EmbedError("Vypadá to, tak že jste zadali neexistující příkaz 🤔", "Pomcoí příkazu " + process.env.BOT_PREFIX + "help zobrazíte všechny příkazy", message.author));
@@ -535,65 +623,96 @@ const express = require("express");
 const app = express();
 
 
+let CacheTime = 0;
+let CacheData = [];
+
 app.get("/", (req, res) => {
     if(!req.query.strana){
         res.redirect("/?strana=0");
         return;
     }
-    res.write('<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>FallingFox - Discord Leaderboard</title> <meta name="description" content="Oficální Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta name="theme-color" content="#139107"> <meta property="og:site_name" content="PinkTube.eu"> <meta property="og:title" content="FallingFox - Discord Leaderboard"> <meta property="og:description" content="Oficální Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta property="og:url" content="https://fallingfox.eu/"> <meta property="og:image" content="http://fallingfox.eu/public-files/DefaultAvatar.jpg"> <link href="http://fallingfox.eu/public-files/DefaultAvatar.jpg" rel="icon" type="image/jpg"></link> <link rel="stylesheet" href="http://fallingfox.eu/public-files/style.css"> </head>');
-    res.write("<body>");
-    db.query("SELECT COUNT(*) as count FROM `Levely`", (err, rows1, fields) => {
-        if(rows1[0].count < (req.query.strana * 10) || isNaN(req.query.strana) || req.query.strana < 0){
-            res.write(' <div id="Karta"> <img src="http://fallingfox.eu/public-files/DefaultAvatar.jpg" class="avatar"> <div class="Jmeno">Chybka!!!!!</div> <div class="Info">Tato strána není dostupná! :( ' + req.query.strana + ' </div> ');
-            res.write("</body>");
-            res.end();
-        }else{
-            let ZacatecniPozice;
-            if(req.query.strana == 0){
-                ZacatecniPozice = 0;
-            }else{
-                ZacatecniPozice = (Number(req.query.strana) + 9);
-            }
-            db.query("SELECT * FROM `Levely` ORDER BY `XP` DESC LIMIT " + ZacatecniPozice + ", " + (ZacatecniPozice + 10), async (err, rows, fields) => {
-                for(i = 0; i < rows.length; i++){
-                    const Uzivatel = rows[i];
-                    console.log(Uzivatel);
-                    //je tu await, protože jinak  když to pak jelo dál tak se někdy stalo, že první request byl později než druhý a bylo to pak přeházené..
-                    await axios.get("https://discord.com/api/users/" + Uzivatel.UserID, {
+    const CasCache = new Date(CacheTime);
+    if(CacheTime == 0 || CasCache.getTime() < (Date.now() - 60 * 1000 * 15)){
+        console.log("Probíhá cachování dat!");
+        db.query("SELECT * FROM `Levely` ORDER BY `XP` DESC LIMIT 100", async (err, rows, fields) => {
+            if(rows.length < 1){
+                res.send("Omlouváme se, ale stala se chyba při získávání dat.");
+                console.log("V DATABÁZI NEJSOU ŽÁDNÉ ÚDAJE!");
+                return;
+            } 
+            CacheData = [];
+            for(i = 0; i < rows.length; i++){
+                const Uzivatel = rows[i];
+                await axios.get("https://discord.com/api/users/" + Uzivatel.UserID, {
                         headers: {
                             Authorization: "Bot " + process.env.BOT_TOKEN
                         }
-                    }).then((api) => {
-                        let Avatar;
-                        if(api.data.avatar == null){
-                            Avatar = "http://fallingfox.eu/public-files/DefaultAvatar.jpg";
-                        }else{
-                            Avatar = "https://cdn.discordapp.com/avatars/" + api.data.id + "/" + api.data.avatar + ".png";
-                        }
-                        const NextLevel = VypocetXPNaDalsiLevel(Uzivatel.Level);
-                        const ZbyvaXP = NextLevel - Uzivatel.XP;
-                        res.write('\n <div id="Karta"> <div class="Pozice">' + (ZacatecniPozice + i + 1) + '.</div> <img src="' + Avatar + '" class="avatar"> <div class="Jmeno">' + api.data.username + '</div> <div class="Info">Počet zpráv: <strong>' + Uzivatel.PocetZprav +'</strong>, aktuální level: <strong>' + Uzivatel.Level + '</strong> a aktuální počet EXP: <strong>' + Uzivatel.XP + '</strong> a uživateli zbývá získat ' + ZbyvaXP + 'EXP do dalšího levelu (' + Uzivatel.XP + '/' + NextLevel + ')</div> </div> ');
-                        if(i == (rows.length -1)){
-                            if(rows1[0].count > ((ZacatecniPozice + 1) * 10) || isNaN(ZacatecniPozice)){
-                                const DalsiStrana = ZacatecniPozice + 1 || 1;
-                                res.write(`<a href="http://fallingfox.eu/?strana=${DalsiStrana}" class="PageButton">&#8250;</a>`);
-                            }
-                            if(ZacatecniPozice !== 0){
-                                const DalsiStrana = ZacatecniPozice - 1;
-                                res.write(`<a href="http://fallingfox.eu/?strana=${DalsiStrana}" class="PageButton">&#8249;</a>`);
-                            }
-                            res.write("</body>")
-                            res.end();
-                        }
-                    })
-                }
-            })
-        }
-    })
-})
+                }).then((api) => {
+                    let Avatar;
+                    if(api.data.avatar == null){
+                        Avatar = "http://fallingfox.eu/public-files/liska.jpg";
+                    }else{
+                        Avatar = "https://cdn.discordapp.com/avatars/" + api.data.id + "/" + api.data.avatar + ".png";
+                    }
+                    const NextLevel = VypocetXPNaDalsiLevel(Uzivatel.Level);
+                    const ZbyvaXP = NextLevel - Uzivatel.XP;
 
+                    CacheData.push({id: Uzivatel.UserID, avatar: Avatar, username: api.data.username, pocetZprav: Uzivatel.PocetZprav, level: Uzivatel.Level, xp: Uzivatel.XP, zbyvaXP: ZbyvaXP, dalsiLevel: NextLevel});
+
+                    CacheTime = Date.now();
+                    if(i == (rows.length -1)){
+                        Vypsani();
+                    }
+
+                }).catch((e) => {
+                    console.log("Stala se chyba při cachování uživatelů! - " + e);
+                })  
+            }
+        })
+
+    }else{
+        Vypsani();
+    }
+    function Vypsani() {
+        res.write('<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>FallingFox - Discord Leaderboard</title> <meta name="description" content="Oficální Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta name="theme-color" content="#139107"> <meta property="og:site_name" content="PinkTube.eu"> <meta property="og:title" content="FallingFox - Discord Leaderboard"> <meta property="og:description" content="Oficální Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta property="og:url" content="https://fallingfox.eu/"> <meta property="og:image" content="https://fallingfox.eu/public-files/liska.jpg"> <link href="https://fallingfox.eu/public-files/liska.jpg" rel="icon" type="image/jpg"></link> <link rel="stylesheet" href="https://fallingfox.eu/public-files/style.css"> </head>');
+        const KonecnePozice = (10 * Number(req.query.strana) + 10);
+        const ZacatecniPozice = KonecnePozice - 10;
+        if(ZacatecniPozice >= CacheData.length){
+            res.write('\n <div id="Karta"> <div class="Jmeno">Tato stránka neexistuje!</div> <div class="Info">Omlouváme se, ale  hledaná stránka není dostupná!</div> </div> ');
+            res.end();
+            return;
+        }
+        for(i = ZacatecniPozice; i <= KonecnePozice; i++){
+            const Uzivatel = CacheData[i];
+            res.write('\n <div id="Karta"> <div class="Pozice">' + (i + 1) + '.</div> <img src="' + Uzivatel.avatar + '" class="avatar"> <div class="Jmeno">' + Uzivatel.username + '</div> <div class="Info">Počet zpráv: <strong>' + Uzivatel.pocetZprav +'</strong>, aktuální level: <strong>' + Uzivatel.level + '</strong> a aktuální počet EXP: <strong>' + Uzivatel.xp + '</strong> a uživateli zbývá získat ' + Uzivatel.zbyvaXP + 'EXP do dalšího levelu (' + Uzivatel.xp + '/' + Uzivatel.dalsiLevel + ')</div> </div> ');
+            if(i == (KonecnePozice -1) || i == (CacheData.length -1)){
+                res.write('<div id="Buttony">');
+                if(Number(req.query.strana) !== 0){
+                    const DalsiStrana = Number(req.query.strana) - 1;
+                    res.write(`<a href="http://fallingfox.eu/?strana=${DalsiStrana}" class="PageButton">&#8249;</a>`);
+                }
+                if(CacheData.length > KonecnePozice){
+                    const DalsiStrana = Number(req.query.strana) + 1 || 1;
+                    res.write(`<a href="http://fallingfox.eu/?strana=${DalsiStrana}" class="PageButton">&#8250;</a>`);
+                }
+                res.write('</div>');
+                res.end();
+                break;
+            }
+        }
+
+    }
+
+})
 
 app.use('/public-files/', express.static('public'));
 
+app.get('*', function(req, res){
+    res.status(404);
+    res.write('<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>FallingFox - 404</title> <meta name="description" content="Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta name="theme-color" content="#139107"> <meta property="og:site_name" content="fallingfox.eu"> <meta property="og:title" content="FallingFox - Discord Leaderboard"> <meta property="og:description" content="Leaderboard Discord serveru Falling Fox! Padá liška něco si přej <3"> <meta property="og:url" content="https://fallingfox.eu/"> <meta property="og:image" content="https://fallingfox.eu/public-files/liska.jpg"> <link href="https://fallingfox.eu/public-files/liska.jpg" rel="icon" type="image/jpg"></link> <link rel="stylesheet" href="https://fallingfox.eu/public-files/style.css"> </head>');
+    res.write('\n <div id="Karta"> <div class="Jmeno">#404! Tato stránka nelze najít!</div> <div class="Info">Omlouváme se, ale  snažíš se vstoupit na neexistující stránku!</div> </div> ');
+    res.end();
+});
+  
 
 app.listen(8443, () => console.log("[FallingStart] Leaderboard na portu 8443 naběhl!")) ;
