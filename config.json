@@ -1,0 +1,14 @@
+{
+    "leaderboardWeb": "https://falingfox.eu/",
+    "rolesForLevels": [
+        {"roleID": "707578282253746246", "levelNeeded": 30, "roleName": "Věrný fanoušek"},
+        {"roleID": "707578567692648469", "levelNeeded": 80, "roleName": "Dlouhodobý fanoušek"},
+        {"roleID": "707578176884441150", "levelNeeded": 150, "roleName": "Lištička"},
+        {"roleID": "731195588657545276", "levelNeeded": 200, "roleName": "Liška"},
+        {"roleID": "764854642353504287", "levelNeeded": 250, "roleName": "Padající Liška"},
+        {"roleID": "764857315874308146", "levelNeeded": 300, "roleName": "Mafianská Liška"},
+        {"roleID": "764857735832666174", "levelNeeded": 400, "roleName": "Retro Liška"},
+        {"roleID": "764857894373949461", "levelNeeded": 500, "roleName": "CupHead Liška"},
+        {"roleID": "764858829351157801", "levelNeeded": 850, "roleName": "Liška z Bradavic"}
+    ]
+}

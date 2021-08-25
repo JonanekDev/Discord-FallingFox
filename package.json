@@ -1,21 +1,21 @@
 {
   "name": "fallingfox",
-  "version": "1.0.0",
-  "description": "",
+  "version": "3.0.0",
+  "description": "Custom bot for FallingFox Discord server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev-start": "nodemon index.js"
   },
   "keywords": [],
   "author": "Jonanek",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
-    "apicache": "^1.5.3",
-    "axios": "^0.21.1",
-    "discord.js": "^12.4.1",
-    "dotenv": "^8.2.0",
+    "@discordjs/builders": "^0.6.0",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.12"
   }
 }
