@@ -56,6 +56,7 @@ CREATE TABLE `Levels` (
 ALTER TABLE `Levels`
   ADD PRIMARY KEY (`ID`);
 ```
-* Nyní můžeme spustit bota příkazem `npm start`
+* Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot
+* Poté můžeme bota již spouštět pouze s příkazem `npm start`
 
 ##### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#6969 nebo email jonas@pinktube.eu

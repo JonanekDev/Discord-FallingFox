@@ -21,13 +21,19 @@ class levely {
     }
 
     GetUserLevel (UserID) {
-        db.query("SELECT * FROM Levels WHERE DisUserID LIKE '" + UserID + "'", (err, result) => {
-            if (err) {
-                console.log("[ERROR] Nepovedlo se získat data z databáze. Zkontroluj jeslti je vytvořená tabulka Levels, chyba:" + err);
-                return;
-            }
-            return result[0];
-        })
+        return new Promise((resolve, reject) => {
+            db.query("SELECT * FROM Levels WHERE DisUserID LIKE '" + UserID + "'", (err, result) => {
+                if (err) {
+                    console.log("[ERROR] Nepovedlo se získat data z databáze. Zkontroluj jeslti je vytvořená tabulka Levels, chyba:" + err);
+                    return;
+                }
+                if (result.length < 1) {
+                    resolve("USERNOTFOUND");
+                } else {
+                    resolve(result[0]);
+                }
+            })
+        });
     }
 
     //Funkce vyvolaná při zaslání nezablokované zprávy

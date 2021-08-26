@@ -10,5 +10,19 @@
         {"roleID": "764857735832666174", "levelNeeded": 400, "roleName": "Retro Liška"},
         {"roleID": "764857894373949461", "levelNeeded": 500, "roleName": "CupHead Liška"},
         {"roleID": "764858829351157801", "levelNeeded": 850, "roleName": "Liška z Bradavic"}
+    ],
+    "linky": [
+        {"nadpis": "Facebook", "link": "https://www.facebook.com/FallingFoxYT"},
+        {"nadpis": "Instagram", "link": "https://www.instagram.com/_fallingfox_/"},
+        {"nadpis": "Twitter", "link": "https://twitter.com/FallingFoxYT"},
+        {"nadpis": "Youtube", "link": "https://www.youtube.com/channel/UCfb8dV6IZdj-t0l9eNae3_Q"},
+        {"nadpis": "Discord invite", "link": "https://invite.gg/fallingfox"},
+        {"nadpis": "GitHub", "link": "https://github.com/fallingfox/"}
+    ],
+    "everyoneRoleID": "701146829504643102",
+    "adminPermRolesIDs": [
+        "701152237816381600",
+        "701151237030150225",
+        "701151405376798731"
     ]
 }
