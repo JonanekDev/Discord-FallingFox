@@ -28,7 +28,7 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
     * počasí
     * user-info
     * Další zatím nevím :(
-* Web leaderboard (Víc optimalizovaný než předchozí doufám)
+* Web leaderboard (Víc optimalizovaný než předchozí doufám) - ROZDĚLANÉ NEFUNKČNÍ
 * Možná jednoduchá administrace pro adminy ze serveru, kde by šli přidávat role za levely a nějaké další vecičky
 * Publikovat na plného bota
 
@@ -45,6 +45,7 @@ MYSQL_USER=MySQL uživatel
 MYSQL_PASSWORD=Heslo uživatele
 MYSQL_DATABASE=Název MySQL databáze
 DISCORD_BOT_TOKEN=Token vašeho bota
+WEB_PORT=Port, kde chcete mít web
 ```
 * Vytvoříme v MySQL databází tabulku Levels pomocí následující SQL příkazu
 ```

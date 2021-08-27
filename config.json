@@ -1,6 +1,6 @@
 {
     "leaderboardWeb": "https://falingfox.eu/",
-    "guildID": "701146829504643102",
+    "guildID": "871765268865646662",
     "rolesForLevels": [
         {"roleID": "707578282253746246", "levelNeeded": 30, "roleName": "Věrný fanoušek"},
         {"roleID": "707578567692648469", "levelNeeded": 80, "roleName": "Dlouhodobý fanoušek"},
@@ -65,8 +65,8 @@
     "anketaChannelID":  "876484615479648256",
     "welcomeChannelID": "876484615479648256",
     "roleAfterJoin": "701151772407890029",
-    "countOfUsersChannel": "706818021116870656",
-    "EjtBallAnswers": [
+    "countOfUsersChannel": "880892891201929287",
+    "8ballAnswers": [
         "Ano",
         "Ne",
         "To je zajímavá otázka, ale nevím nevím",
@@ -75,6 +75,6 @@
         "Nevím nevím, zkus se zeptat třeba pana <@515589624127684623>",
         "Jak to mám vědět? Radši se zeptej třeba <@435810466648948736>",
         "To je dobrá otázka! Ale já na ni neznám odpověď.",
-        "To je moc fylozofická otázka. Nevím nevím."
+        "To je moc fylozofická otázka."
     ]
 }
