@@ -7,26 +7,28 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 ### Stav aktuálního kódu:
 * Funkční základ
 * Funkční level system 
-
-### TODO: 
-* Příkaz:
+* Welcome message
+* Přidání role po připojení
+* Update channelu s počtem uživatelů
+* Funkční příkazy:
     * level
     * levely-role
-    * anketa 
-    * leaderboard
-    * random-food
-    * random-reddit
     * linky
     * avatar
     * slap
+    * anketa 
+    * leaderboard
     * 8ball
+    * random-food
+
+### TODO: 
+* Příkaz:
+    * random-reddit
     * clear
     * počasí
     * user-info
     * Další zatím nevím :(
-* Update channelu s počtem uživatelů
 * Web leaderboard (Víc optimalizovaný než předchozí doufám)
-* Welcome message
 * Možná jednoduchá administrace pro adminy ze serveru, kde by šli přidávat role za levely a nějaké další vecičky
 * Publikovat na plného bota
 

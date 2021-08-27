@@ -1,0 +1,115 @@
+<!--
+    FALLINGFOX WEB LEADERBOARD
+
+    Kód celého Discord bota: https://github.com/JonanekDev/Discord-FallingFox
+    Checkuj moje Instagramy: https://www.instagram.com/jonysek98/ a https://www.instagram.com/divnej.clovek.z.prostejova/
+
+    Btw proč mi čumíš do kódu? :THINKING:
+    NEMÁŠ NA SVŮJ KÓD NEBO CO? :RAGEY:
+
+    Btw mám rád FallingFox
+-->
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FallingFox | Leaderboard</title>
+    <style>
+        body {
+            background-color: #3f3a3b;
+            margin: 0;
+            text-align: center;
+        }
+        * {
+            color: white;
+        }
+        .NADPIS {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 35px;
+        }
+        #Karta {
+            margin: 0 auto;
+            margin-top: 2vh; 
+            background-color: #141414; 
+            border-radius: 15px; 
+            width: 60%; 
+            min-height: 10vh; 
+            padding: 10px;
+            overflow-wrap: break-word;
+        }
+        .Jmeno {
+            text-align: left; 
+            font-weight: bold; 
+            font-size: 3vh; 
+            margin-left: 1vh; 
+            float: left; 
+            line-height: 1;
+        }
+        .Info { 
+            margin-top: 4vh; 
+            word-warp: break-word; 
+            white-space: pre-line; 
+            width: 50%; 
+            overflow: auto; }
+        .Pozice {
+            line-height: 100%; 
+            font-size: 100%; 
+            float:left; 
+        }
+        .avatar { 
+            height: 100%; 
+            border-radius: 50%; 
+            float: left; 
+            margin-right: 20px; 
+        } 
+        #Buttony {
+            margin: 1% auto; 
+            text-align: center; 
+        } 
+        .PageButton {
+            background-color: #f1f1f1; 
+            border-radius: 50%; 
+            color: black; 
+        } 
+        a { 
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+        a:hover {
+            background-color: #ddd;  
+            color: black;
+        }
+        @media screen and (max-width: 1000px) { 
+            #Karta {
+                 width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="NADPIS">FallingFox Leaderboard</div>
+    <% if (locals.err) { %>
+        <% if (err == 1) { %>
+            <div id="Karta">  
+                <img src="../public/fallingfox.jpg" class="avatar"> 
+                <div class="Jmeno">Chybičky se stala!</div> 
+                <div class="Info">Omlouváme se, ale pokoušíš se zobrazit neexistující stranu</div> 
+            </div>
+        <% } else { %>
+            <div id="Karta">  
+                <img src="../public/fallingfox.jpg" class="avatar"> 
+                <div class="Jmeno">Chybičky se stala!</div> 
+                <div class="Info">Omlouváme se, ale nastala chyba! Zkuste to později. :(</div> 
+            </div>
+        <% } %>
+    <% } else { %> 
+        <% users.forEach(function(user){ %>
+            <div id="Karta"> <div class="Pozice"><%= user.index %></div> <img src="<%= user.avatar %>" class="avatar"> <div class="Jmeno"><%= user.username %></div> <div class="Info">Počet zpráv: <strong><%= user.messages %></strong>, aktuální level: <strong><%= user.level %></strong> a aktuální počet EXP: <strong><%= user.exp %></strong> a uživateli zbývá získat <%= user.remains %> EXP do dalšího levelu (<%= user.exp %>/<%= user.neededexp %>)</div> </div> 
+        <% }); %>
+    <% } %>
+</body>
+</html>

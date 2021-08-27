@@ -1,14 +1,29 @@
 const discord = require("discord.js");
-const levely = require("./levely");
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const commands = require("./commands");
-const config = require("./config.json");
 
-const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILDS, discord.Intents.FLAGS.GUILD_MEMBERS, discord.Intents.FLAGS.GUILD_MESSAGES, discord.Intents.FLAGS.DIRECT_MESSAGES, discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS, discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING ]});
+const client = new discord.Client({intents: [discord.Intents.FLAGS.GUILDS, discord.Intents.FLAGS.GUILD_MEMBERS, discord.Intents.FLAGS.GUILD_MESSAGES, discord.Intents.FLAGS.DIRECT_MESSAGES, discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS, discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING, discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS, discord.Intents.FLAGS.GUILD_PRESENCES ]});
+
+function UpdateCountOfUsers() {
+    const config = require("./config.json");
+    const channel = client.channels.cache.get(config.countOfUsersChannel);
+    const UpdateNazev = "Uživatelů na serveru: " + client.guilds.cache.get(config.guildID).memberCount;
+    if (channel.name !== UpdateNazev){
+        channel.setName(UpdateNazev);
+    }
+}
 
 client.on("ready", () => {
     console.log("[Start] Login to Discord bot was successful!");
+    client.user.setPresence({ activities: [{ type: "WATCHING", name: "github.com/JonanekDev/Discord-FallingFox" }] });
+    setInterval(() => {
+        //TODO: Zobrazení dočastného statusu, pokud je nastaven
+        const config = require("./config.json");
+        const status = config.permanentniStatusy[Math.floor(Math.random() * config.permanentniStatusy.length)];
+        client.user.setPresence({ activities: [{ type: status.type, name: status.CONTENT }] });
+    }, require("./config.json").meneniStatusuIntervalSekundy * 1000);
+    UpdateCountOfUsers();
     if (process.argv[2] == "regcommands") {
+        const { SlashCommandBuilder } = require("@discordjs/builders");
+        const config = require("./config.json");
         const LevelCMD = new SlashCommandBuilder()
         .setName("level")
         .setDescription("Zobrazí aktuální tvůj level nebo level zadaného uživatele")
@@ -138,7 +153,27 @@ client.on("ready", () => {
 
 client.on("message", (message) => {
     if(message.author.bot || message.channel.type == "DM") return;
+    //TODO: Detekce spamu a následná blokace
+    const levely = require("./levely");
     new levely().AddExpByMsg(message);
+})
+
+client.on("guildMemberAdd", (member) => {
+    const config = require("./config.json");
+    const WelcomeEmbed = new discord.MessageEmbed()
+    .setTitle("Vítej! - " + member.user.tag)
+    .setColor("#bd7739") 
+    .setThumbnail(member.user.displayAvatarURL())
+    .setDescription("Hej <@" + member.user.id + ">,\n Vítej na FallingFox Discord serveru.\nDoufám, že se ti u nás bude líbit!")
+    .setTimestamp()
+    .setFooter("FallingFox v3 | Vítej!");
+    client.channels.cache.get(config.welcomeChannelID).send({ embeds: [WelcomeEmbed] });
+    member.roles.add(config.roleAfterJoin);
+    UpdateCountOfUsers();
+})
+
+client.on("guildMemberRemove", (member) => {
+    UpdateCountOfUsers();
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
@@ -149,6 +184,7 @@ client.login(process.env.DISCORD_BOT_TOKEN)
 
 client.on('interactionCreate', interaction => {
     if (interaction.isCommand()) {
+        const commands = require("./commands")
         new commands().command(interaction);
     }   
 })

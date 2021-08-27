@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const configFile = require("./config.json");
 
 //Level system
 const db = require("./db");
@@ -36,11 +35,23 @@ class levely {
         });
     }
 
+    GetLeaderBoard (Count, Offset) {
+        return new Promise((resolve, reject) => {
+            db.query("SELECT * FROM Levels ORDER BY EXP DESC LIMIT " + Count + " OFFSET " + Offset, (err, result) => {
+                if (err) {
+                    console.log("[ERROR] Nepovedlo se získat data z databáze. Zkontroluj jeslti je vytvořená tabulka Levels, chyba:" + err);
+                    return;
+                }
+                resolve(result);
+            })
+        });
+    }
+
     //Funkce vyvolaná při zaslání nezablokované zprávy
     AddExpByMsg (message) {
         db.query("SELECT * FROM Levels WHERE DisUserID LIKE '" + message.author.id + "'", (err, result) => {
             if (err) {
-                message.channel.send(new embeds().ErrEmbed("při získávání dat z MySQL", "Kontaktujte tvůrce bota <@781556627899547690>", message.author));
+                message.channel.send({ embeds: new embeds().ErrEmbed("při získávání dat z MySQL", "Kontaktujte tvůrce bota <@781556627899547690>", message.author) });
                 console.log("[ERROR] Nepovedlo se získat data z databáze. Zkontroluj jeslti je vytvořená tabulka Levels, chyba:" + err);
                 return;
             }
@@ -93,12 +104,13 @@ class levely {
                         console.log("[ERROR] Nepovedlo se zapsat data z databáze. Zkontroluj jeslti zda MySQL uživatel má správná oprávnění, chyba:" + err2);
                         return;
                     }
+                    const config = require("./config.json");
                     if (LevelAfter !== undefined) {
                         const LevelUPEmbed = new Discord.MessageEmbed()
                             .setTitle("🎉 Dosažení dalšího levelu! 🎉")
                             .setColor("#bd7739")
                             .setThumbnail(message.author.displayAvatarURL())
-                            .setDescription("Hej <@" + message.author.id + ">, \nGratuluji ti, právě jsi byl povýšen na level **" + LevelAfter + "**! \nChceš vidět jak na tom jsou ostatní? Mrkni se na **" + configFile["leaderboardWeb"] + "**")
+                            .setDescription("Hej <@" + message.author.id + ">, \nGratuluji ti, právě jsi byl povýšen na level **" + LevelAfter + "**! \nChceš vidět jak na tom jsou ostatní? Mrkni se na **" + config["leaderboardWeb"] + "**")
                             .setTimestamp()
                             .setFooter("FallingFox v3 | Levely");
                         message.channel.send({ embeds: [LevelUPEmbed] });
@@ -106,7 +118,7 @@ class levely {
                     //Checknutí rolí a přidání role, když je potřeba
                     //TODO: Vyřešit líp, zbytečný checkovat při každé zprávě
                     if (LevelAfter >= 30) {
-                        configFile["rolesForLevels"].forEach((role) =>{
+                        config["rolesForLevels"].forEach((role) =>{
                             if (LevelAfter >= role.levelNeeded & !message.member.roles.cache.has(role.roleID)) {
                                 message.member.roles.add(role.roleID);
                             }

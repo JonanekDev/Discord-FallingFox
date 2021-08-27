@@ -1,5 +1,6 @@
 {
     "leaderboardWeb": "https://falingfox.eu/",
+    "guildID": "701146829504643102",
     "rolesForLevels": [
         {"roleID": "707578282253746246", "levelNeeded": 30, "roleName": "Věrný fanoušek"},
         {"roleID": "707578567692648469", "levelNeeded": 80, "roleName": "Dlouhodobý fanoušek"},
@@ -24,5 +25,56 @@
         "701152237816381600",
         "701151237030150225",
         "701151405376798731"
+    ],
+    "avatarRecenze": [
+        "Strašnej humáč",
+        "I rozježděnej pes vypadá líp jak tvůj avatar",
+        "🤮🤮🤮🤮🤮🤮🤮",
+        "Pěknej avatar, kde jsi to čorl/a? 😯",
+        "V celku okej",
+        "I můj tvůrce vypadá líp jak tvůj avatar",
+        "Tak ujde to, ale viděl jsem lepší",
+        "Nice, to jsi ty? 😯 Nezajdeme někdy někam? Třeba do Kauflandu",
+        "Zajímavej avatar 🤔"
+    ],
+    "slapGify": [
+        "https://i.pinimg.com/originals/fe/08/2a/fe082aef9c7a680686224ff4659517c2.gif",
+        "https://c.tenor.com/QhsQeRQypMUAAAAM/slap-bear-slap.gif",
+        "https://c.tenor.com/k4_iBaFWIAYAAAAC/slapping.gif",
+        "https://thumbs.gfycat.com/TestyPhysicalJumpingbean-max-1mb.gif",
+        "https://media2.giphy.com/media/kiwUxA5995f2ADXrJo/200.gif",
+        "https://c.tenor.com/gXUhWuB6QDkAAAAM/family-guy-smack.gif",
+        "https://thumbs.gfycat.com/RashJointCow-max-1mb.gif",
+        "https://i0.wp.com/i.giphy.com/media/3oEduOWVxygmeDIKPu/giphy.gif",
+        "https://c.tenor.com/SJr0aJOS3CQAAAAM/slap-smack-face.gif",
+        "https://thumbs.gfycat.com/JitterySimplisticGemsbok-max-1mb.gif",
+        "https://thumbs.gfycat.com/BaggyUnsungGuineafowl-size_restricted.gif",
+        "https://thumbs.gfycat.com/BowedKindlyHoneybee-size_restricted.gif"
+    ],
+    "meneniStatusuIntervalSekundy": 120,
+    "permanentniStatusy": [
+        {"type": "WATCHING", "CONTENT": "instagram.com/_fallingfox_"},
+        {"type": "LISTENING", "CONTENT": "your commands!"},
+        {"type": "WATCHING", "CONTENT": "you!"},
+        {"type": "PLAYING", "CONTENT": "Minecraft! /avatar - Zhodnotí tvůj avatar"},
+        {"type": "WATCHING", "CONTENT": "NETFLYX! /počasí [Město] - Zobrazí aktuální počasí v zadaném městě"},
+        {"type": "PLAYING", "CONTENT": "Fortnajt! /level - Zobrazí tvůj aktuální level"},
+        {"type": "WATCHING", "CONTENT": "JDEME ŽRÁT! /random-food - Zobrazí náhodné jídlo"},
+        {"type": "WATCHING", "CONTENT": "SHITTY CODE! github.com/JonanekDev/Discord-FallingFox"}
+    ],
+    "anketaChannelID":  "876484615479648256",
+    "welcomeChannelID": "876484615479648256",
+    "roleAfterJoin": "701151772407890029",
+    "countOfUsersChannel": "706818021116870656",
+    "EjtBallAnswers": [
+        "Ano",
+        "Ne",
+        "To je zajímavá otázka, ale nevím nevím",
+        "Určitě ano",
+        "Určitě ne",
+        "Nevím nevím, zkus se zeptat třeba pana <@515589624127684623>",
+        "Jak to mám vědět? Radši se zeptej třeba <@435810466648948736>",
+        "To je dobrá otázka! Ale já na ni neznám odpověď.",
+        "To je moc fylozofická otázka. Nevím nevím."
     ]
 }
