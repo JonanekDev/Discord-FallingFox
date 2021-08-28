@@ -12,7 +12,7 @@ function UpdateCountOfUsers() {
 }
 
 client.on("ready", () => {
-    console.log("[Start] Login to Discord bot was successful!");
+    console.log("[Start] Přihlášení na DIscord bota bylo úspěšné!");
     client.user.setPresence({ activities: [{ type: "WATCHING", name: "github.com/JonanekDev/Discord-FallingFox" }] });
     setInterval(() => {
         //TODO: Zobrazení dočastného statusu, pokud je nastaven
@@ -22,6 +22,7 @@ client.on("ready", () => {
     }, require("./config.json").meneniStatusuIntervalSekundy * 1000);
     UpdateCountOfUsers();
     if (process.argv[2] == "regcommands") {
+        console.log("[Start] Probíhá registrování příkazů!")
         const { SlashCommandBuilder } = require("@discordjs/builders");
         const config = require("./config.json");
         const LevelCMD = new SlashCommandBuilder()
@@ -60,10 +61,15 @@ client.on("ready", () => {
         .setDescription("Zobrazí náhodné jídlo z Redditu");
         client.application.commands.create(RandomFoodCMD);
 
-        const RandomMemeCMD = new SlashCommandBuilder()
-        .setName("random-meme")
-        .setDescription("Zobrazí náhodný meme z Redditu");
-        client.application.commands.create(RandomMemeCMD);
+        const RandomRedditCMD = new SlashCommandBuilder()
+        .setName("random-reddit")
+        .setDescription("Zobrazí náhodný post z Redditu")
+        .addStringOption(option => 
+            option.setName("reddit")
+                .setDescription("Reddit ze, které ho chceš post")
+                .setRequired(true)
+            );
+        client.application.commands.create(RandomRedditCMD);
 
         const LinkyCMD = new SlashCommandBuilder()
         .setName("linky")
@@ -121,6 +127,11 @@ client.on("ready", () => {
             );
         client.application.commands.create(UserInfoCMD);
 
+        const SourceCodeCMD = new SlashCommandBuilder()
+        .setName("sourcecode")
+        .setDescription("Zobrazí odkaz na GitHub, kde nalezneš můj kód");
+        client.application.commands.create(SourceCodeCMD);
+
         const ClearCMD = new SlashCommandBuilder()
         .setName("clear")
         .setDescription("Smaže určitý počet zpráv")
@@ -146,7 +157,8 @@ client.on("ready", () => {
                 type: "ROLE",
                 permission: false,
             })
-            await command.permissions.add({ permissions })
+            //TODO: FIX ERROR
+            command.permissions.add({ permissions });
         })
     }
 })
@@ -170,10 +182,13 @@ client.on("guildMemberAdd", (member) => {
     client.channels.cache.get(config.welcomeChannelID).send({ embeds: [WelcomeEmbed] });
     member.roles.add(config.roleAfterJoin);
     UpdateCountOfUsers();
+    const levely = require("./levely");
+    new levely().SetUserLeavl(member.id, 0);
 })
 
 client.on("guildMemberRemove", (member) => {
     UpdateCountOfUsers();
+    new levely().SetUserLeavl(member.id, 1);
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)

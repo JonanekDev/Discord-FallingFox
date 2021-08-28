@@ -7,14 +7,12 @@ app.set("view engine", "ejs");
 
 app.use("/public", express.static("public"))
 
+app.use("/administrace", require("./administrace"));
+
 //Leaderboard
 app.get("/", async (req, res) => {
-    if (!req.query.page || req.query.page < 0 || isNaN(req.query.page)) {
-        res.redirect("?page=0");
-        return;
-    }
     const levely = require("./levely");
-    new levely().GetLeaderBoard(10, req.query.page * 10)
+    new levely().GetLeaderBoard(-69, 0)
     .then(async (leaderboard) => {
         if (leaderboard.length < 1) {
             res.render("leaderboard", {err: 1});
@@ -23,12 +21,18 @@ app.get("/", async (req, res) => {
             const users = [];
             leaderboard.forEach(async (user, index) => {
                 const neededEXP = new levely().CalculateXPForNextLevel(user.Level);
-                //TODO: DODĚLAT TO AŽ SE VYSPÍM LOOOL teď kurva drát nevím
-                const disUser = client.users.cache.get(user.ID);
-                console.log(disUser);
-                users.push({username: disUser.username, avatar: disUser.displayAvatarURL(), level: user.Level, exp: user.EXP, messages: user.CountOfMessages, neededexp: neededEXP, remains: (neededEXP - user.EXP), index: (req.query.page * 10 + index)});
+                const disUser = client.users.cache.get(user.DisUserID);
+                if (disUser == undefined) {
+                    new levely().SetUserLeavl(user.DisUserID, 1);
+                } else {
+                    users.push({username: disUser.username, avatar: disUser.displayAvatarURL(), level: user.Level, exp: user.EXP, messages: user.CountOfMessages, neededexp: neededEXP, remains: (neededEXP - user.EXP), index: (req.query.page * 10 + index + 1)});
+                }
             });
-            res.render("leaderboard", {users: users});
+            if (users.length < 1) {
+                res.render("leaderboard", {err: 1});
+            } else {
+                res.render("leaderboard", {users: users});
+            }
         }
     })
 })

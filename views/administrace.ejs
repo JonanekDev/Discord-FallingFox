@@ -1,0 +1,28 @@
+<!--
+    FALLINGFOX WEB LEADERBOARD
+
+    Kód celého Discord bota: https://github.com/JonanekDev/Discord-FallingFox
+    Checkuj moje Instagramy: https://www.instagram.com/jonysek98/ a https://www.instagram.com/divnej.clovek.z.prostejova/
+
+    Btw proč mi čumíš do kódu? :THINKING:
+    NEMÁŠ NA SVŮJ KÓD NEBO CO? :RAGEY:
+
+    Btw mám rád FallingFox
+-->
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FallingFox | Administrace | <%= PageTitle %></title>
+    <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+    <div class="NADPIS">FallingFox Administrace</div>
+    <% if (locals.AdminErr) { %>
+        <div id="ErrorFrame">
+            <%- AdminErr %>
+        </div>
+    <% } %>
+</body>
+</html>

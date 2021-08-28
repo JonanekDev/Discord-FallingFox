@@ -10,6 +10,7 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 * Welcome message
 * Přidání role po připojení
 * Update channelu s počtem uživatelů
+* Funkční více optimalizovaný webový leaderboard
 * Funkční příkazy:
     * level
     * levely-role
@@ -20,17 +21,19 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
     * leaderboard
     * 8ball
     * random-food
-
-### TODO: 
-* Příkaz:
-    * random-reddit
-    * clear
     * počasí
     * user-info
-    * Další zatím nevím :(
-* Web leaderboard (Víc optimalizovaný než předchozí doufám) - ROZDĚLANÉ NEFUNKČNÍ
+    * clear
+    * random-reddit
+    * sourcecode
+
+### TODO: 
+* Přidat na webovej leaderboard šipky :OMEGALUL:
+* Fix chyby při generaci příkazů to se někdy udělá
 * Možná jednoduchá administrace pro adminy ze serveru, kde by šli přidávat role za levely a nějaké další vecičky
 * Publikovat na plného bota
+* AntiSpam
+* Notifikace na nová videa na Youtube channelu
 
 
 ### Jak spustit bota
@@ -54,12 +57,13 @@ CREATE TABLE `Levels` (
   `DisUserID` bigint(20) NOT NULL,
   `EXP` int(11) NOT NULL,
   `Level` int(11) NOT NULL,
-  `CountOfMessages` int(11) NOT NULL
+  `CountOfMessages` int(11) NOT NULL,
+  `Leave` BOOLEAN NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `Levels`
   ADD PRIMARY KEY (`ID`);
 ```
-* Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot
+* Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot (Na konci registrace příkazů bot spadne to je dobře, někdy to musím fixnout...)
 * Poté můžeme bota již spouštět pouze s příkazem `npm start`
 
-##### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#6969 nebo email jonas@pinktube.eu
+#### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#6969 nebo email jonas@pinktube.eu

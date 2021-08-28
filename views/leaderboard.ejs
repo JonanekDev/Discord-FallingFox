@@ -16,100 +16,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FallingFox | Leaderboard</title>
-    <style>
-        body {
-            background-color: #3f3a3b;
-            margin: 0;
-            text-align: center;
-        }
-        * {
-            color: white;
-        }
-        .NADPIS {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 35px;
-        }
-        #Karta {
-            margin: 0 auto;
-            margin-top: 2vh; 
-            background-color: #141414; 
-            border-radius: 15px; 
-            width: 60%; 
-            min-height: 10vh; 
-            padding: 10px;
-            overflow-wrap: break-word;
-        }
-        .Jmeno {
-            text-align: left; 
-            font-weight: bold; 
-            font-size: 3vh; 
-            margin-left: 1vh; 
-            float: left; 
-            line-height: 1;
-        }
-        .Info { 
-            margin-top: 4vh; 
-            word-warp: break-word; 
-            white-space: pre-line; 
-            width: 50%; 
-            overflow: auto; }
-        .Pozice {
-            line-height: 100%; 
-            font-size: 100%; 
-            float:left; 
-        }
-        .avatar { 
-            height: 100%; 
-            border-radius: 50%; 
-            float: left; 
-            margin-right: 20px; 
-        } 
-        #Buttony {
-            margin: 1% auto; 
-            text-align: center; 
-        } 
-        .PageButton {
-            background-color: #f1f1f1; 
-            border-radius: 50%; 
-            color: black; 
-        } 
-        a { 
-            text-decoration: none;
-            display: inline-block;
-            padding: 8px 16px;
-        }
-        a:hover {
-            background-color: #ddd;  
-            color: black;
-        }
-        @media screen and (max-width: 1000px) { 
-            #Karta {
-                 width: 90%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../public/style.css">
 </head>
 <body>
     <div class="NADPIS">FallingFox Leaderboard</div>
-    <% if (locals.err) { %>
-        <% if (err == 1) { %>
-            <div id="Karta">  
-                <img src="../public/fallingfox.jpg" class="avatar"> 
-                <div class="Jmeno">Chybičky se stala!</div> 
-                <div class="Info">Omlouváme se, ale pokoušíš se zobrazit neexistující stranu</div> 
-            </div>
-        <% } else { %>
-            <div id="Karta">  
-                <img src="../public/fallingfox.jpg" class="avatar"> 
-                <div class="Jmeno">Chybičky se stala!</div> 
-                <div class="Info">Omlouváme se, ale nastala chyba! Zkuste to později. :(</div> 
-            </div>
-        <% } %>
-    <% } else { %> 
-        <% users.forEach(function(user){ %>
-            <div id="Karta"> <div class="Pozice"><%= user.index %></div> <img src="<%= user.avatar %>" class="avatar"> <div class="Jmeno"><%= user.username %></div> <div class="Info">Počet zpráv: <strong><%= user.messages %></strong>, aktuální level: <strong><%= user.level %></strong> a aktuální počet EXP: <strong><%= user.exp %></strong> a uživateli zbývá získat <%= user.remains %> EXP do dalšího levelu (<%= user.exp %>/<%= user.neededexp %>)</div> </div> 
-        <% }); %>
-    <% } %>
+    <div id="MamRadKarty">
+        <% if (locals.err) { %>
+            <% if (err == 1) { %>
+                <div id="Karta">  
+                    <img src="../public/fallingfox.jpg" class="avatar"> 
+                    <div class="Jmeno">Chybičky se stala!</div> 
+                    <div class="Info">Omlouváme se, ale pokoušíš se zobrazit neexistující stranu</div> 
+                </div>
+            <% } else { %>
+                <div id="Karta">  
+                    <img src="../public/fallingfox.jpg" class="avatar"> 
+                    <div class="Jmeno">Chybičky se stala!</div> 
+                    <div class="Info">Omlouváme se, ale nastala chyba! Zkuste to později. :(</div> 
+                </div>
+            <% } %>
+        <% } %> 
+        <div id="Karta">  
+            <img src="../public/fallingfox.jpg" class="avatar"> 
+            <div class="Jmeno">Vyčkejte chvíli...!</div> 
+            <div class="Info">Probíhá načítání dat...</div> 
+        </div>
+    </div>
+    <div id="Buttony">
+        <button id="ButtonBack" class="PageButton Invis">&#8249;</button>
+        <button id="ButtonNext" class="PageButton Invis">&#8250;</button>
+    </div>
 </body>
+<% if (locals.users) { %>
+<script>
+const Users = <%- JSON.stringify(users) %>;
+let page = 0;
+document.addEventListener("DOMContentLoaded", () => {
+    List();
+});
+const Buttonback = document.getElementById("ButtonBack");
+Buttonback.addEventListener("click", (event) => {
+    page = page - 1;
+    List();
+})
+const ButtonNext = document.getElementById("ButtonNext");
+ButtonNext.addEventListener("click", (event) => {
+    page = page + 1;
+    List();
+})
+function List() {
+    const karty = document.getElementById("MamRadKarty");
+    karty.innerHTML = "";
+    if (page * 10 > Users.length || page < 0) {
+        karty.innerHTML = '<div id="Karta"> <img src="../public/fallingfox.jpg" class="avatar"> <div class="Jmeno">Chybičky se stala!</div> <div class="Info">Omlouváme se, ale pokoušíš se zobrazit neexistující stranu</div> </div>';
+    }
+    for (let i = page * 10; i < page * 10 + 10 & i < Users.length; i++) {
+        const user = Users[i];
+        karty.innerHTML += `<div id="Karta"> <div class="Pozice">${i + 1}.</div> <img src="${user.avatar}" class="avatar"> <div class="Jmeno">${user.username}</div> <div class="Info">Počet zpráv: <strong>${user.messages}</strong>, aktuální level: <strong>${user.level}</strong> a aktuální počet EXP: <strong>${user.exp}</strong> a uživateli zbývá získat ${user.remains}EXP do dalšího levelu (${user.exp}/${user.neededexp})</div> </div>`;
+        
+    }
+    if (page * 10 + 11 < Users.length) {
+        if (ButtonNext.classList.contains("Invis")) ButtonNext.classList.remove("Invis");
+    } else if (!ButtonNext.classList.contains("Invis")) {
+        ButtonNext.classList.add("Invis")
+    }
+    if (page * 10 - 1 >= 0) {
+        if (Buttonback.classList.contains("Invis")) Buttonback.classList.remove("Invis");
+    } else if (!Buttonback.classList.contains("Invis")) {
+        Buttonback.classList.add("Invis")
+    }
+}
+</script>
+<% } %>
 </html>
