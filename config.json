@@ -78,6 +78,5 @@
         "To je moc fylozofická otázka."
     ],
     "clientID": "789595209595879445",
-    "redirecturi": "http://napicu.eu:8469/administrace/login/DisOAuth2Redirect",
-    "clientSecret": "MANWZUUzmZGze92xq0WZG4A0cZNXqAKe"
+    "redirecturi": "http://napicu.eu:8469/administrace/login/DisOAuth2Redirect"
 }

@@ -41,7 +41,7 @@ router.get("/login/DisOAuth2Redirect", (req, res) => {
 
     oauth.tokenRequest({
         clientId: config.clientID,
-        clientSecret: config.clientSecret,
+        clientSecret: process.env.CLIENTSECRET,
         code: req.query.code,
         scope: "identify",
         grantType: "authorization_code",
