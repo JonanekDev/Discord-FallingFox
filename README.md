@@ -30,7 +30,6 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 ### TODO: 
 * Fix chyby při generaci příkazů to se někdy udělá
 * Možná jednoduchá administrace pro adminy ze serveru, kde by šli přidávat role za levely a nějaké další vecičky
-* Publikovat na plného bota
 * AntiSpam
 * Notifikace na nová videa na Youtube channelu
 
@@ -64,7 +63,7 @@ ALTER TABLE `Levels`
   ADD PRIMARY KEY (`ID`);
 ```
 * Upravíme soubor config.json
-```
+```JSON
 {
     "leaderboardWeb": "URL KDE POBĚŽÍ WEB",
     "guildID": "GUILD ID KDE POBĚŽÍ BOT",

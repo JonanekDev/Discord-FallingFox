@@ -42,8 +42,7 @@ class levely {
     GetLeaderBoard (Count, Offset) {
         return new Promise((resolve, reject) => {
             const limit = (Count !== -69) ? " LIMIT " + Count + " OFFSET " + Offset : " ";
-            //TODO: Přidat zpět WHERE Leavl = 0
-            db.query("SELECT * FROM Levels ORDER BY EXP DESC " + limit, (err, result) => {
+            db.query("SELECT * FROM Levels WHERE Leavl = 0 ORDER BY EXP DESC" + limit, (err, result) => {
                 if (err) {
                     console.log("[ERROR] Nepovedlo se získat data z databáze. Zkontroluj jeslti je vytvořená tabulka Levels, chyba:" + err);
                     return;

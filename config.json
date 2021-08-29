@@ -62,8 +62,8 @@
         {"type": "WATCHING", "CONTENT": "JDEME ŽRÁT! /random-food - Zobrazí náhodné jídlo"},
         {"type": "WATCHING", "CONTENT": "SHITTY CODE! github.com/JonanekDev/Discord-FallingFox"}
     ],
-    "anketaChannelID":  "876484615479648256",
-    "welcomeChannelID": "876484615479648256",
+    "anketaChannelID":  "701147769083002920",
+    "welcomeChannelID": "701147769083002920",
     "roleAfterJoin": "701151772407890029",
     "countOfUsersChannel": "706818021116870656",
     "8ballAnswers": [
@@ -78,5 +78,5 @@
         "To je moc fylozofická otázka."
     ],
     "clientID": "789595209595879445",
-    "redirecturi": "http://napicu.eu:8469/administrace/login/DisOAuth2Redirect"
+    "redirecturi": "https://fallingfox.eu/administrace/login/DisOAuth2Redirect"
 }
