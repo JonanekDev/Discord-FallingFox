@@ -18,10 +18,46 @@
     <link rel="stylesheet" href="../public/style.css">
 </head>
 <body>
-    <div class="NADPIS">FallingFox Administrace</div>
     <% if (locals.AdminErr) { %>
+        <div class="NADPIS">FallingFox Administrace</div>
         <div id="ErrorFrame">
             <%- AdminErr %>
+        </div>
+    <% } else if(user.logined == 1) { %>
+        <div id="GridContainer">
+            <div id="AdminMenu">
+                <div class="PadaTiServer">FallingFox Administrace</div>
+                <div class="UzivatelAdministrace">
+                    <img class="avatar" src="https://cdn.discordapp.com/avatars/<%- user.data.id %>/<%- user.data.avatar %>.webp?size=128">
+                    <div class="Jmeno"><%- user.data.username %>#<%- user.data.discriminator %></div>
+                    <% if (user.administracepravo == true) { %>
+                        <div class="StatusPristupu" style="color: green;">
+                            Máš přístup do administrace
+                        </div>
+                    <% } else { %>
+                        <div class="StatusPristupu" style="color: red;">
+                            Nemáš přístup do administrace
+                        </div>
+                    <% } %>
+                </div>
+                <% if (user.administracepravo == true) { %>
+                <a href="/administrace/main">Základní info</a>
+                <% } %>
+                <a href="https://github.com/JonanekDev/Discord-FallingFox">Sourcecode</a>
+                <a href="/administrace/logout">Odhlášení</a>
+            </div>
+            <div id="AdminContent">
+                <% if (user.administracepravo == true) { %>
+                    
+                <% } else { %>
+                    Omlouváme se, ale nemáš potřebnou roli pro přístup do adminsitrace.
+                <% } %>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="NADPIS">FallingFox Administrace</div>
+        <div id="ErrorFrame">
+            Coapk tu chceš? Běž dom, dík
         </div>
     <% } %>
 </body>

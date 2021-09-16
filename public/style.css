@@ -83,3 +83,68 @@ body {
          width: 90%;
     }
 }
+#GridContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    justify-content: center;
+}
+#AdminMenu {
+    height: 100vh;
+    position: fixed;
+    width: 300px;
+    background-color: hsl(0, 0%, 7.8%);
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+#AdminMenu .PadaTiServer {
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+#AdminMenu .UzivatelAdministrace {
+    min-height: 7vh;
+    width: 290px;
+    height: 8vh;
+    padding: 5px;
+    background-color: #212121;
+    margin-bottom: 20px;
+}
+#AdminMenu .UzivatelAdministrace .Jmeno{
+    font-weight: bold;
+    font-size: 23px;
+}
+#AdminMenu .UzivatelAdministrace .avatar{
+    height: 8vh; 
+    border-radius: 50%; 
+    float: left; 
+}
+#AdminMenu .UzivatelAdministrace .StatusPristupu{
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 12px;
+}
+#AdminMenu .UzivatelAdministrace .StatusPristupu:before {
+    content: '\a';
+    white-space: pre;
+}
+#AdminMenu a {
+    width: 270px;
+    display: block;
+    padding: 15px;
+}
+#AdminContent {
+    position: relative;
+    background-color: hsl(0, 0%, 12.9%);
+    border-radius: 15px;
+    min-height: 5vh;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 70%;
+    padding: 15px;
+    margin-left: 300px;
+    font-size: 15px;
+}

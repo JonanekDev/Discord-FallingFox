@@ -16,9 +16,21 @@ router.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000 
 }))
 
+function JeAdminCheck(ID) {
+    const config = require("./config.json");
+    const client = require("./bot");
+    let jeAdmin = false;
+    for (let i = 0; i < config.adminPermRolesIDs.length; i++){
+        const role = config.adminPermRolesIDs[i];
+        if (client.guilds.cache.get(config.guildID).members.cache.get(ID).roles.cache.has(role)) {
+            jeAdmin = true;
+            break;
+        }
+    }
+    return jeAdmin;
+}
+
 router.get("/*", (req, res, next) => {
-    //TODO:Checknutí funkčosti tokenu
-    console.log(req.session);
     if(req.url == "/login" || req.url.startsWith("/login/DisOAuth2Redirect") || req.url.startsWith("/logout")){
         next();
     }else if(req.session.Logined !== 1) {
@@ -70,7 +82,7 @@ router.get("/login/DisOAuth2Redirect", (req, res) => {
     }).then((data) => {
         req.session.Logined = 1;
         req.session.access_token = data.access_token;
-        res.send("Tvoje máma je kokot")
+        res.redirect("/administrace/main")
     }).catch(() => {
         res.render("administrace", {PageTitle: "Chyba!", AdminErr: 'Omlouváme se, ale zadaný kód není platný! Zkuste akci provést <a href="../login">znovu.</a>'});
     })
@@ -78,15 +90,12 @@ router.get("/login/DisOAuth2Redirect", (req, res) => {
 
 router.get("/main", (req, res) => {
     //TODO: DODĚLAT TO
-    if (req.session.Logined !== 1) {
-        res.redirect("/administrace/login");
-        return;
-    }
     const DiscordOauth2 = require("discord-oauth2");
     const oauth = new DiscordOauth2();
     oauth.getUser(req.session.access_token)
     .then((data) => {
-        res.send("Tohle ještě někdy musím dodělat ok? Btw ahoj " + data.username);  
+        console.log(JeAdminCheck(data.id));
+        res.render("administrace", {PageTitle: "Hlavní stránka administrace", user: { logined: 1, data: data, administracepravo: JeAdminCheck(data.id)}});
     })
 })
 
