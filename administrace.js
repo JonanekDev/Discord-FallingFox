@@ -44,7 +44,7 @@ router.get("/*", (req, res, next) => {
         })
         .catch(() => {
             req.session = null;
-            res.render("administrace", {PageTitle: "Chyba!", AdminErr: 'Omlouváme se, ale vaše přihlášení vypršelo, můžete se přihlásit <a href="../login">znovu.</a>'});
+            res.render("administrace", {PageTitle: "Chyba!", AdminErr: 'Omlouváme se, ale vaše přihlášení vypršelo, můžete se přihlásit <a href="../administrace/login">znovu.</a>'});
         })
     }
 })
@@ -89,17 +89,40 @@ router.get("/login/DisOAuth2Redirect", (req, res) => {
 })
 
 router.get("/main", (req, res) => {
-    //TODO: DODĚLAT TO
     const DiscordOauth2 = require("discord-oauth2");
     const oauth = new DiscordOauth2();
+    const config = require("./config.json");
+    const client = require("./bot");
     oauth.getUser(req.session.access_token)
     .then((data) => {
-        console.log(JeAdminCheck(data.id));
-        res.render("administrace", {PageTitle: "Hlavní stránka administrace", user: { logined: 1, data: data, administracepravo: JeAdminCheck(data.id)}});
+        const guild = client.guilds.cache.get(config.guildID);
+        const LevelRolePocty = [];
+        config.rolesForLevels.forEach((role) => {
+            LevelRolePocty.push({nazev: role.roleName, count: guild.roles.cache.get(role.roleID).members.size, potrebnyLevel: role.levelNeeded})
+        })
+        let uptimeCelkoveSekundy = (client.uptime / 1000);
+        const dny = Math.floor(uptimeCelkoveSekundy / 86400);
+        const hodiny = Math.floor(uptimeCelkoveSekundy / 3600);
+        uptimeCelkoveSekundy %= 3600;
+        const minuty = Math.floor(uptimeCelkoveSekundy / 60);
+        const sekundy = Math.floor(uptimeCelkoveSekundy % 60);
+        const uptimeMsg = dny + " dní, " + hodiny + " hodin, " + minuty + " minut a " + sekundy + " sekund";
+        const PocetRoly = config.rolesForLevels.length;
+        res.render("administrace", {PageTitle: "Hlavní stránka administrace", adminContentEJS: "administracemain", user: { logined: 1, data: data, administracepravo: JeAdminCheck(data.id)}, mainPageData: {pocetMemberu: guild.memberCount, LevelRolePocty: LevelRolePocty, uptime: uptimeMsg, PocetRoly: PocetRoly}});
     })
 })
 
+router.get("/levelroles-edit", (req, res) => {
+    const DiscordOauth2 = require("discord-oauth2");
+    const oauth = new DiscordOauth2();
+    const config = require("./config.json");
+    oauth.getUser(req.session.access_token)
+    .then((data) => {
+        res.render("administrace", {PageTitle: "Nastavení rolí za ", adminContentEJS: "administracerole", user: { logined: 1, data: data, administracepravo: JeAdminCheck(data.id)}, rolePageData: {role: config.rolesForLevels}});
+    })
+})
 
+//404
 router.get("/*", (req, res) => {
     res.redirect("/administrace/main");
 })

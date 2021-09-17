@@ -1,0 +1,84 @@
+<div id="AdminContentRole">
+    <table id="RoleTabula">
+        <tr>
+            <td>Probíhá načítání dat...</td>
+        </tr>
+    </table>    
+</div>
+<script>
+    const Role = <%- JSON.stringify(rolePageData.role) %>;
+    function ZacatekTabulky(tabula, tbody) {
+        const row = tbody.insertRow();
+        const td1 = document.createElement("td");
+        const tdtext1 = document.createTextNode("#")
+        td1.appendChild(tdtext1);
+        const td2 = document.createElement("td");
+        const tdtext2 = document.createTextNode("Role ID")
+        td2.appendChild(tdtext2);
+        const td3 = document.createElement("td");
+        const tdtext3 = document.createTextNode("Potřebný level")
+        td3.appendChild(tdtext3);
+        const td4 = document.createElement("td");
+        const tdtext4 = document.createTextNode("Název role(Nemusí být název v Discordu)")
+        td4.appendChild(tdtext4);
+        const td5 = document.createElement("td");
+        const tdtext5 = document.createTextNode("Akce")
+        td5.appendChild(tdtext5);
+        row.appendChild(td1);
+        row.appendChild(td2);
+        row.appendChild(td3);
+        row.appendChild(td4);
+        row.appendChild(td5);
+    }
+
+    function LoadTabulka() {
+        const tabula = document.querySelector("table");
+        const tbody = tabula.createTBody();
+        tabula.deleteRow(0);
+        ZacatekTabulky(tabula, tbody);
+        Role.forEach((rola, i) => {
+            const row = tbody.insertRow();
+            const tdIndex = document.createElement("td");
+            const tdIndexText = document.createTextNode(i)
+            tdIndex.appendChild(tdIndexText);
+            row.appendChild(tdIndex);
+
+            const tdRole = document.createElement("td");
+            const tdRoleText = document.createElement("input");
+            tdRoleText.setAttribute("type", "number");
+            tdRoleText.setAttribute("value", rola.roleID);
+            tdRole.appendChild(tdRoleText);
+            row.appendChild(tdRole);
+
+            const tdLevel = document.createElement("td");
+            const tdLevelText = document.createElement("input");
+            tdLevelText.setAttribute("type", "number");
+            tdLevelText.setAttribute("value", rola.levelNeeded);
+            tdLevel.appendChild(tdLevelText);
+            row.appendChild(tdLevel);
+
+            const tdName = document.createElement("td");
+            const tdNameText = document.createElement("input");
+            tdNameText.setAttribute("type", "text");
+            tdNameText.setAttribute("value", rola.roleName);
+            tdName.appendChild(tdNameText);
+            row.appendChild(tdName);
+
+            const tdSave = document.createElement("td");
+            const tdSaveText = document.createElement("button");
+            tdSaveText.setAttribute("class", "save");
+            const tdSaveText2 = document.createTextNode("Uložit")
+            tdSave.appendChild(tdSaveText);
+            tdSaveText.appendChild(tdSaveText2);
+            const tdSaveText3 = document.createElement("button");
+            tdSaveText3.setAttribute("class", "del");
+            const tdSaveText4 = document.createTextNode("Smazat")
+            tdSave.appendChild(tdSaveText3);
+            tdSaveText3.appendChild(tdSaveText4);
+            row.appendChild(tdSave);
+        });
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        LoadTabulka();
+    })
+</script>

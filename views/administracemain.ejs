@@ -1,0 +1,26 @@
+<div id="AdminContentMain">
+    <table>
+        <tr>
+            <td>Název hodnoty</td>
+            <td>Hodnota</td>
+        </tr>
+        <tr>
+            <td>Počet uživatelů na FallingFox Discordu</td>
+            <td><%= mainPageData.pocetMemberu %></td>
+        </tr>
+        <tr>
+            <td>Počet rolí za levely</td>
+            <td><%= mainPageData.PocetRoly %></td>
+        </tr>
+        <tr>
+            <td>Aktuální uptime bota (doba spuštění v kuse)</td>
+            <td><%= mainPageData.uptime %></td>
+        </tr>
+        <% mainPageData.LevelRolePocty.forEach(Role => { %>
+            <tr>
+                <td>Počet uživatelů s rolí <%= Role.nazev %> (Od levelu <%= Role.potrebnyLevel %>) </td>
+                <td><%= Role.count %></td>
+            </tr>
+        <% }) %>
+    </table>    
+</div>

@@ -42,13 +42,14 @@
                 </div>
                 <% if (user.administracepravo == true) { %>
                 <a href="/administrace/main">Základní info</a>
+                <a href="/administrace/levelroles-edit">Role za levely</a>
                 <% } %>
-                <a href="https://github.com/JonanekDev/Discord-FallingFox">Sourcecode</a>
+                <a href="https://github.com/JonanekDev/Discord-FallingFox" target="_blank">Sourcecode</a>
                 <a href="/administrace/logout">Odhlášení</a>
             </div>
             <div id="AdminContent">
                 <% if (user.administracepravo == true) { %>
-                    
+                    <%- include(adminContentEJS); %>
                 <% } else { %>
                     Omlouváme se, ale nemáš potřebnou roli pro přístup do adminsitrace.
                 <% } %>

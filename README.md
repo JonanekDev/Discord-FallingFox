@@ -29,7 +29,8 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 
 ### TODO: 
 * Fix chyby při generaci příkazů to se někdy udělá
-* Možná jednoduchá administrace pro adminy ze serveru, kde by šli přidávat role za levely a nějaké další vecičky
+* Přidat do administrace přidání rolí přes názvy
+* API pro zpracovávání úprav v administraci 
 * AntiSpam
 * Notifikace na nová videa na Youtube channelu
 
@@ -63,7 +64,7 @@ ALTER TABLE `Levels`
   ADD PRIMARY KEY (`ID`);
 ```
 * Upravíme soubor config.json
-```JSON
+```
 {
     "leaderboardWeb": "URL KDE POBĚŽÍ WEB",
     "guildID": "GUILD ID KDE POBĚŽÍ BOT",
@@ -107,4 +108,4 @@ ALTER TABLE `Levels`
 * Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot (Na konci registrace příkazů bot spadne to je dobře, někdy to musím fixnout...)
 * Poté můžeme bota již spouštět pouze s příkazem `npm start`
 
-#### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#6969 nebo email jonas@pinktube.eu
+#### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#0742 nebo email jonas@pinktube.eu

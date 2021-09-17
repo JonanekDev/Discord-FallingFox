@@ -135,10 +135,16 @@ body {
     width: 270px;
     display: block;
     padding: 15px;
+    text-decoration: none;
+    transition-duration: 1s;
+}
+#AdminMenu a:hover {
+    background-color: #2d2d2d;
+    font-weight: bold;
 }
 #AdminContent {
     position: relative;
-    background-color: hsl(0, 0%, 12.9%);
+    background-color: #212121;
     border-radius: 15px;
     min-height: 5vh;
     margin-top: 2%;
@@ -147,4 +153,56 @@ body {
     padding: 15px;
     margin-left: 300px;
     font-size: 15px;
+}
+#AdminContent table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #191919;
+    padding: 5px;
+    user-select: none;
+}
+
+#AdminContent table td {
+    font-size: 15px;
+    text-align: left;
+    padding: 10px;
+    border: 5px solid #2d2d2d; 
+}
+#AdminContent table tr:first-child td {
+    border-top: 0;
+}
+#AdminContent table tr td:first-child {
+    border-left: 0;
+}
+#AdminContent table tr:last-child td {
+    border-bottom: 0;
+}
+#AdminContent table tr td:last-child {
+    border-right: 0;
+}
+#AdminContentRole table tr td:first-child td {
+    width: 30px;
+} 
+#AdminContent table td input[type=text], #AdminContent table td input[type=number] {
+    background-color: #212121;
+    border: none;
+    width: 60%;
+    margin: 5px;
+    padding: 10px;
+}
+#AdminContent table td .save {
+    background-color: #21bc43;
+    border: none;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#AdminContent table td .del {
+    background-color: #bc2127;
+    margin: 5px;
+    border: none;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
 }
