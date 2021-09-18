@@ -70,13 +70,13 @@ ALTER TABLE `Levels`
 
 - Upravíme soubor config.json
 
-```json
+```
 {
     "leaderboardWeb": "URL KDE POBĚŽÍ WEB",
     "guildID": "GUILD ID KDE POBĚŽÍ BOT",
     "rolesForLevels": [
         {"roleID": "ID ROLE ZA LEVEL", "levelNeeded": "LEVEL ZA KTERÝ TO MÁ BÝT", "roleName": "NÁZEV ROLE, KTERÝ SE ZOBRAZÍ VE ZPRÁVÁCH"}
-        //...Může jich tu být nekonečně...
+        ...Může jich tu být nekonečně...
     ],
     "linky": [
         {"nadpis": "Název link", "link": "ODKAZ"}
@@ -84,20 +84,20 @@ ALTER TABLE `Levels`
     "everyoneRoleID": "ID ROLE EVERYONE",
     "adminPermRolesIDs": [
         "ID ADMIN ROLE"
-        //...Může jich tu být nekonečně.. (Při změně je potřeba použít npm run start-regcommands, aby se aplikovali práva na příkazy)
+        ...Může jich tu být nekonečně.. (Při změně je potřeba použít npm run start-regcommands, aby se aplikovali práva na příkazy)
     ],
     "avatarRecenze": [
         "Vaše recenze avatarů..."
-        //...Může jich tu být nekonečně...
+        ...Může jich tu být nekonečně...
     ],
     "slapGify": [
         "ODKAZ NA .GIF MUSÍ BÝT PŘÍMO .gif SOUBOR"
-        //...Může jich tu být nekonečně...
+        ...Může jich tu být nekonečně...
     ],
     "meneniStatusuIntervalSekundy": 120,
     "permanentniStatusy": [
         {"type": "WATCHING/LISTENING/PLAYING", "CONTENT": "STATUS"}
-        //...Může jich tu být nekonečně...
+        ...Může jich tu být nekonečně...
     ],
     "anketaChannelID":  "ID MÍSTNOSTI KAM SE MAJÍ POSÍLAT ANKETY",
     "welcomeChannelID": "ID MÍSTNOSTI KAM SE MAJÍ POSÍLAT UVÍTACÍ ZPRÁVY",
@@ -105,7 +105,7 @@ ALTER TABLE `Levels`
     "countOfUsersChannel": "ID CHANNELU NA POČET UŽIVATELŮ",
     "8ballAnswers": [
         "ODPOVĚDI DO 8BALL"
-        //...Může jich tu být nekonečně...
+        ...Může jich tu být nekonečně...
     ],
     "clientID": "CLIENT ID BOTA",
     "redirecturi": "REDIRECT URI PO UDĚLENÍ PRÁV V OAUTH2"
