@@ -5,41 +5,43 @@ Custom Discord bot pro FallingFox Discord ([Invite na Discord server](https://in
 Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 
 ### Stav aktuálního kódu:
-* Funkční základ
-* Funkční level system 
-* Welcome message
-* Přidání role po připojení
-* Update channelu s počtem uživatelů
-* Funkční více optimalizovaný webový leaderboard
-* Funkční příkazy:
-    * level
-    * levely-role
-    * linky
-    * avatar
-    * slap
-    * anketa 
-    * leaderboard
-    * 8ball
-    * random-food
-    * počasí
-    * user-info
-    * clear
-    * random-reddit
-    * sourcecode
 
-### TODO: 
-* Fix chyby při generaci příkazů to se někdy udělá
-* Přidat do administrace přidání rolí přes názvy
-* API pro zpracovávání úprav v administraci 
-* AntiSpam
-* Notifikace na nová videa na Youtube channelu
+- Funkční základ
+- Funkční level system
+- Welcome message
+- Přidání role po připojení
+- Update channelu s počtem uživatelů
+- Funkční více optimalizovaný webový leaderboard
+- Funkční příkazy:
+  - level
+  - levely-role
+  - linky
+  - avatar
+  - slap
+  - anketa
+  - leaderboard
+  - 8ball
+  - random-food
+  - počasí
+  - user-info
+  - clear
+  - random-reddit
+  - sourcecode
 
+### TODO:
+
+- Fix chyby při generaci příkazů to se někdy udělá
+- Přidat do administrace přidání rolí přes názvy
+- API pro zpracovávání úprav v administraci
+- AntiSpam
+- Notifikace na nová videa na Youtube channelu
 
 ### Jak spustit bota
-* Stáhneme kód bota 
-* Zkontrolujte zda máte minimálně **Node.js 16** po případě nainstalujte (Discord.js v13 vyžaduje minimálně verzi 16)
-* Ve složce, kde máme kód bota dáme `npm i`, což nám nainstaluje všechny použité balíčky
-* Vytvoříme `.env` soubor, který bude obsahovat následující hodnoty:
+
+- Stáhneme kód bota
+- Zkontrolujte zda máte minimálně **Node.js 16** po případě nainstalujte (Discord.js v13 vyžaduje minimálně verzi 16)
+- Ve složce, kde máme kód bota dáme `npm i`, což nám nainstaluje všechny použité balíčky
+- Vytvoříme `.env` soubor, který bude obsahovat následující hodnoty:
 
 ```
 MYSQL_HOST=IP MySQL server
@@ -50,8 +52,10 @@ DISCORD_BOT_TOKEN=Token vašeho bota
 WEB_PORT=Port, kde chcete mít web
 CLIENTSECRET=
 ```
-* Vytvoříme v MySQL databází tabulku Levels pomocí následující SQL příkazu
-```
+
+- Vytvoříme v MySQL databází tabulku Levels pomocí následující SQL příkazu
+
+```sql
 CREATE TABLE `Levels` (
   `ID` int(11) NOT NULL,
   `DisUserID` bigint(20) NOT NULL,
@@ -63,14 +67,16 @@ CREATE TABLE `Levels` (
 ALTER TABLE `Levels`
   ADD PRIMARY KEY (`ID`);
 ```
-* Upravíme soubor config.json
-```
+
+- Upravíme soubor config.json
+
+```json
 {
     "leaderboardWeb": "URL KDE POBĚŽÍ WEB",
     "guildID": "GUILD ID KDE POBĚŽÍ BOT",
     "rolesForLevels": [
-        {"roleID": "ID ROLE ZA LEVEL", "levelNeeded": LEVEL ZA KTERÝ TO MÁ BÝT, "roleName": NÁZEV ROLE, KTERÝ SE ZOBRAZÍ VE ZPRÁVÁCH"}
-        ...Může jich tu být nekonečně...
+        {"roleID": "ID ROLE ZA LEVEL", "levelNeeded": "LEVEL ZA KTERÝ TO MÁ BÝT", "roleName": "NÁZEV ROLE, KTERÝ SE ZOBRAZÍ VE ZPRÁVÁCH"}
+        //...Může jich tu být nekonečně...
     ],
     "linky": [
         {"nadpis": "Název link", "link": "ODKAZ"}
@@ -78,20 +84,20 @@ ALTER TABLE `Levels`
     "everyoneRoleID": "ID ROLE EVERYONE",
     "adminPermRolesIDs": [
         "ID ADMIN ROLE"
-        ...Může jich tu být nekonečně.. (Při změně je potřeba použít npm run start-regcommands, aby se aplikovali práva na příkazy)
+        //...Může jich tu být nekonečně.. (Při změně je potřeba použít npm run start-regcommands, aby se aplikovali práva na příkazy)
     ],
     "avatarRecenze": [
         "Vaše recenze avatarů..."
-        ...Může jich tu být nekonečně...
+        //...Může jich tu být nekonečně...
     ],
     "slapGify": [
         "ODKAZ NA .GIF MUSÍ BÝT PŘÍMO .gif SOUBOR"
-        ...Může jich tu být nekonečně...
+        //...Může jich tu být nekonečně...
     ],
     "meneniStatusuIntervalSekundy": 120,
     "permanentniStatusy": [
         {"type": "WATCHING/LISTENING/PLAYING", "CONTENT": "STATUS"}
-        ...Může jich tu být nekonečně...
+        //...Může jich tu být nekonečně...
     ],
     "anketaChannelID":  "ID MÍSTNOSTI KAM SE MAJÍ POSÍLAT ANKETY",
     "welcomeChannelID": "ID MÍSTNOSTI KAM SE MAJÍ POSÍLAT UVÍTACÍ ZPRÁVY",
@@ -99,13 +105,14 @@ ALTER TABLE `Levels`
     "countOfUsersChannel": "ID CHANNELU NA POČET UŽIVATELŮ",
     "8ballAnswers": [
         "ODPOVĚDI DO 8BALL"
-        ...Může jich tu být nekonečně...
+        //...Může jich tu být nekonečně...
     ],
     "clientID": "CLIENT ID BOTA",
     "redirecturi": "REDIRECT URI PO UDĚLENÍ PRÁV V OAUTH2"
 }
 ```
-* Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot (Na konci registrace příkazů bot spadne to je dobře, někdy to musím fixnout...)
-* Poté můžeme bota již spouštět pouze s příkazem `npm start`
+
+- Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot (Na konci registrace příkazů bot spadne to je dobře, někdy to musím fixnout...)
+- Poté můžeme bota již spouštět pouze s příkazem `npm start`
 
 #### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#0742 nebo email jonas@pinktube.eu
