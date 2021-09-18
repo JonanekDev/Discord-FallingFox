@@ -6,7 +6,7 @@ const router = express.Router();
 router.use("/public", express.static("public"));
 
 router.use(cookieSession({
-    name: "SessionCookieNECUMLOL",
+    name: "FallingLogin",
     keys: [
         "KitKatFallingFoxChunky",
         "MamRadVelkyCernyLisky",
@@ -28,6 +28,10 @@ function JeAdminCheck(ID) {
         }
     }
     return jeAdmin;
+}
+function PresunutiElementuVArray(array, aktualnipozice, novapozice) {
+    let element = array.splice(aktualnipozice, 1) [0];
+    array.splice(novapozice, 0, element);
 }
 
 router.get("/*", (req, res, next) => {
@@ -58,12 +62,17 @@ router.get("/login", (req, res) => {
     //MRDÁ MI V HLAVĚ MRDÁ MI V HLAVĚ
     if (req.session.Logined == 1) {
         res.redirect("/administrace/main");
+        return;
     }
     const config = require("./config.json");
     res.redirect("https://discord.com/api/oauth2/authorize?client_id=" + config.clientID + "&redirect_uri=" + encodeURI(config.redirecturi) + "&response_type=code&scope=identify");
 })
 
 router.get("/login/DisOAuth2Redirect", (req, res) => {
+    if (req.session.Logined == 1) {
+        res.redirect("/administrace/main");
+        return;
+    }
     if (!req.query.code) {
         res.redirect("/administrace/login")
         return;
@@ -121,6 +130,122 @@ router.get("/levelroles-edit", (req, res) => {
         res.render("administrace", {PageTitle: "Nastavení rolí za ", adminContentEJS: "administracerole", user: { logined: 1, data: data, administracepravo: JeAdminCheck(data.id)}, rolePageData: {role: config.rolesForLevels}});
     })
 })
+
+
+
+//API
+
+
+router.get("/api/levelroles-edit/getrole", (req, res) => {
+    if (req.session.Logined !== 1) {
+        res.json({status: "KO", err: 6001});
+        return;
+    }
+    const DiscordOauth2 = require("discord-oauth2");
+    const oauth = new DiscordOauth2();
+    const config = require("./config.json");
+    oauth.getUser(req.session.access_token)
+    .then((data) => {
+        if (!JeAdminCheck(data.id)) {
+            res.json({status: "KO", err: 6001});
+            return;
+        }
+        res.json({status: "OK", data: config.rolesForLevels});
+    })
+})
+
+router.get("/api/levelroles-edit/:Hastag/:Akce", (req, res) => {
+    if (req.session.Logined !== 1) {
+        res.json({status: "KO", err: 6001});
+        return;
+    }
+    const DiscordOauth2 = require("discord-oauth2");
+    const fs = require("fs");
+    const oauth = new DiscordOauth2();
+    const client = require("./bot");
+    oauth.getUser(req.session.access_token)
+    .then((data) => {
+        if (!JeAdminCheck(data.id)) {
+            res.json({status: "KO", err: 6001});
+            return;
+        }
+        const config = require("./config.json");
+        const guild = client.guilds.cache.get(config.guildID);
+        switch (req.params.Akce) {
+            case "del":
+                if (!config.rolesForLevels[req.params.Hastag] || config.rolesForLevels[req.params.Hastag].roleID !== req.query.roleID) {
+                    res.json({status: "KO", err: 6003});
+                    return;
+                } 
+                config.rolesForLevels.splice(req.params.Hastag, 1)
+                fs.writeFile("./config.json", JSON.stringify(config), "utf8", (err) => {
+                    if (err) {
+                        res.json({status: "KO", err: 6004});
+                        return;
+                    }
+                    res.json({status: "OK"});
+                })
+                break;
+    
+            case "update":
+                if (!config.rolesForLevels[req.params.Hastag] || config.rolesForLevels[req.params.Hastag].roleID !== req.query.OrigoRoleID) {
+                    res.json({status: "KO", err: 6003});
+                    return;
+                } 
+                if (!req.query.updateLevelNeeded || !req.query.updateRoleID || !req.query.updateRoleName) {
+                    res.json({status: "KO", err: 6007});
+                    return;
+                }
+                if (isNaN(req.query.updateRoleID) || !guild.roles.cache.get(req.query.updateRoleID)) {
+                    res.json({status: "KO", err: 6005});
+                    return;
+                }
+                if (isNaN(req.query.updateLevelNeeded)) {
+                    res.json({status: "KO", err: 6006});
+                    return;
+                }
+                config.rolesForLevels[req.params.Hastag].levelNeeded = req.query.updateLevelNeeded;
+                config.rolesForLevels[req.params.Hastag].roleID = req.query.updateRoleID;
+                config.rolesForLevels[req.params.Hastag].roleName = req.query.updateRoleName;
+                fs.writeFile("./config.json", JSON.stringify(config), "utf8", (err) => {
+                    if (err) {
+                        res.json({status: "KO", err: 6004});
+                        return;
+                    }
+                    res.json({status: "OK"});
+                })
+                break;
+    
+            case "add":
+                if (!req.query.addLevelNeeded || !req.query.addRoleID || !req.query.addRoleName) {
+                    res.json({status: "KO", err: 6007});
+                    return;
+                }
+                if (isNaN(req.query.addRoleID) || !guild.roles.cache.get(req.query.addRoleID)) {
+                    res.json({status: "KO", err: 6005});
+                    return;
+                }
+                if (isNaN(req.query.addLevelNeeded)) {
+                    res.json({status: "KO", err: 6006});
+                    return;
+                }
+                config.rolesForLevels.push({"roleID": req.query.addRoleID, "levelNeeded": req.query.addLevelNeeded, "roleName": req.query.addRoleName});
+                fs.writeFile("./config.json", JSON.stringify(config), "utf8", (err) => {
+                    if (err) {
+                        res.json({status: "KO", err: 6004});
+                        return;
+                    }
+                    res.json({status: "OK"});
+                })
+                break;    
+        
+            default:
+                res.json({status: "KO", err: 6002});
+                break;
+        }
+    })
+})
+
 
 //404
 router.get("/*", (req, res) => {

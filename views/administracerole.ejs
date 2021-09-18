@@ -4,9 +4,31 @@
             <td>Probíhá načítání dat...</td>
         </tr>
     </table>    
+    <form id="PridatRolu">
+        <input type="number" name="CreateRoleID" placeholder="Zadejte ID role...">
+        <input type="number" name="CreateLevelNeeded" placeholder="Zadejte potřebný level pro roli...">
+        <input type="text" name="CreateRoleName" placeholder="Zadejte název pro roli...">
+        <button class="Add" name="PridatRoluPico">Přidat roli</button>
+    </form>
 </div>
+<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <script>
-    const Role = <%- JSON.stringify(rolePageData.role) %>;
+    async function getData() {
+        const data = await fetch ("/administrace/api/levelroles-edit/getrole");
+        const jsondata = await data.json();
+        if (jsondata.status == "KO") {
+            Swal.fire({
+                title: "Chybka!",
+                text: "Omlouváme se, ale nepodařilo se získat data. Zkontrolujte přihlášení",
+                icon: "error",
+                confirmButtonText: "Ok"
+            })
+            return;
+        }   
+        LoadTabulka(jsondata.data);
+    }
+
     function ZacatekTabulky(tabula, tbody) {
         const row = tbody.insertRow();
         const td1 = document.createElement("td");
@@ -31,10 +53,160 @@
         row.appendChild(td5);
     }
 
-    function LoadTabulka() {
+    async function APISend(Co, Hastag, roleID) {
+        const RoleID = (Hastag >= 0) ? document.querySelectorAll('[name="RoleID-' + Hastag + '"]')[0].value : document.querySelectorAll('[name="CreateRoleID"]')[0].value;
+        const LevelNeeded = (Hastag >= 0) ? document.querySelectorAll('[name="LevelNeeded-' + Hastag + '"]')[0].value : document.querySelectorAll('[name="CreateLevelNeeded"]')[0].value;
+        const RoleName = (Hastag >= 0) ? document.querySelectorAll('[name="RoleName-' + Hastag + '"]')[0].value : document.querySelectorAll('[name="CreateRoleName"]')[0].value;
+        switch (Co) {
+            case "del":
+                const dataDel = await fetch ("/administrace/api/levelroles-edit/" + Hastag + "/del?roleID=" + roleID);
+                const jsondataDel = await dataDel.json();
+                getData();
+                if (jsondataDel.status == "KO") {
+                    let errmsg;
+                    switch (jsondataDel.err) {
+                        case 6001:
+                            errmsg = "nepodařilo se ověřit vaše přihlášení. Zkontrolujte přihlášení"
+                            break;
+                        case 6003:
+                            errmsg = "nepodařilo se najít hledanou roli v configu."
+                            break;
+                        case 6004:
+                            errmsg = "nepodařilo se zapsat údaje do configu."
+                            break;
+                    
+                        default:
+                        errmsg = "nastala neznámá chyba!"
+                            break;
+                    }
+                    Swal.fire({
+                        title: "Chybka!",
+                        text: "Omlouváme se, ale " + errmsg,
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    })
+                    return;
+                }   
+                Swal.fire({
+                    title: "Smazání bylo úspěšné!",
+                    text: "Gratulujeme, smazání role s názvem " + RoleName + " proběhlo úspěšně!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                break;
+        
+            case "update":
+                const dataUp = await fetch ("/administrace/api/levelroles-edit/" + Hastag + "/update?OrigoRoleID=" + roleID + "&updateLevelNeeded=" + LevelNeeded + "&updateRoleID=" + RoleID + "&updateRoleName=" + RoleName);
+                const jsondataUp = await dataUp.json();
+                getData();
+                if (jsondataUp.status == "KO") {
+                    let errmsg;
+                    switch (jsondataUp.err) {
+                        case 6001:
+                            errmsg = "nepodařilo se ověřit vaše přihlášení. Zkontrolujte přihlášení"
+                            break;
+                        case 6003:
+                            errmsg = "nepodařilo se najít hledanou roli v configu."
+                            break;
+                        case 6004:
+                            errmsg = "nepodařilo se zapsat údaje do configu."
+                            break;
+                        case 6005:
+                            errmsg = "nezadal jsi ID, které by pasovalo jakékoliv roli na serveru. Naučte se kopírovat ID, děkujeme";
+                            break;
+                        case 6006:
+                            errmsg = "hodnota potřebný level musí být číslo!"
+                            break;
+                        case 6007:
+                            errmsg = "žádná hodnota nesmí být prázdná!"
+                            break;     
+                    
+                        default:
+                        errmsg = "nastala neznámá chyba!"
+                            break;
+                    }
+                    Swal.fire({
+                        title: "Chybka!",
+                        text: "Omlouváme se, ale " + errmsg,
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    })
+                    return;
+                }   
+                Swal.fire({
+                    title: "Upravení role bylo úspěšné!",
+                    text: "Gratulujeme, byla upravena role s názvem " + RoleName + " proběhlo úspěšně!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                getData();
+                break;
+            case "add":
+                const dataAdd = await fetch ("/administrace/api/levelroles-edit/" + Hastag + "/add?addRoleID=" + RoleID + "&addLevelNeeded=" + LevelNeeded + "&addRoleName=" + RoleName);
+                const jsondataAdd = await dataAdd.json();
+                getData();
+                if (jsondataAdd.status == "KO") {
+                    let errmsg;
+                    switch (jsondataAdd.err) {
+                        case 6001:
+                            errmsg = "nepodařilo se ověřit vaše přihlášení. Zkontrolujte přihlášení"
+                            break;
+                        case 6003:
+                            errmsg = "nepodařilo se najít hledanou roli v configu."
+                            break;
+                        case 6004:
+                            errmsg = "nepodařilo se zapsat údaje do configu."
+                            break;
+                        case 6005:
+                            errmsg = "nezadal jsi ID, které by pasovalo jakékoliv roli na serveru. Naučte se kopírovat ID, děkujeme";
+                            break;
+                        case 6006:
+                            errmsg = "hodnota potřebný level musí být číslo!"
+                            break;
+                        case 6007:
+                            errmsg = "žádná hodnota nesmí být prázdná!"
+                            break;     
+                    
+                        default:
+                        errmsg = "nastala neznámá chyba!"
+                            break;
+                    }
+                    Swal.fire({
+                        title: "Chybka!",
+                        text: "Omlouváme se, ale " + errmsg,
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    })
+                    return;
+                }   
+                Swal.fire({
+                    title: "Přidání role bylo úspěšné!",
+                    text: "Gratulujeme, byla přidána role s názvem " + RoleName + "!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                getData();
+                getData();
+                break;
+            default:
+                Swal.fire({
+                    title: "HEJ!",
+                    text: "Tu je něco divného bráško.",
+                    icon: "error",
+                    confirmButtonText: "Ok"
+                })
+                break;
+        }
+
+    }
+
+    function LoadTabulka(Role) {
         const tabula = document.querySelector("table");
+        tabula.innerHTML = "";
         const tbody = tabula.createTBody();
-        tabula.deleteRow(0);
         ZacatekTabulky(tabula, tbody);
         Role.forEach((rola, i) => {
             const row = tbody.insertRow();
@@ -46,6 +218,7 @@
             const tdRole = document.createElement("td");
             const tdRoleText = document.createElement("input");
             tdRoleText.setAttribute("type", "number");
+            tdRoleText.setAttribute("name", "RoleID-" + i);
             tdRoleText.setAttribute("value", rola.roleID);
             tdRole.appendChild(tdRoleText);
             row.appendChild(tdRole);
@@ -53,6 +226,7 @@
             const tdLevel = document.createElement("td");
             const tdLevelText = document.createElement("input");
             tdLevelText.setAttribute("type", "number");
+            tdLevelText.setAttribute("name", "LevelNeeded-" + i);
             tdLevelText.setAttribute("value", rola.levelNeeded);
             tdLevel.appendChild(tdLevelText);
             row.appendChild(tdLevel);
@@ -60,6 +234,7 @@
             const tdName = document.createElement("td");
             const tdNameText = document.createElement("input");
             tdNameText.setAttribute("type", "text");
+            tdNameText.setAttribute("name", "RoleName-" + i);
             tdNameText.setAttribute("value", rola.roleName);
             tdName.appendChild(tdNameText);
             row.appendChild(tdName);
@@ -67,11 +242,17 @@
             const tdSave = document.createElement("td");
             const tdSaveText = document.createElement("button");
             tdSaveText.setAttribute("class", "save");
+            tdSaveText.addEventListener("click", (e) => {
+                APISend("update", i, rola.roleID);
+            })
             const tdSaveText2 = document.createTextNode("Uložit")
             tdSave.appendChild(tdSaveText);
             tdSaveText.appendChild(tdSaveText2);
             const tdSaveText3 = document.createElement("button");
             tdSaveText3.setAttribute("class", "del");
+            tdSaveText3.addEventListener("click", (e) => {
+                APISend("del", i, rola.roleID);
+            })
             const tdSaveText4 = document.createTextNode("Smazat")
             tdSave.appendChild(tdSaveText3);
             tdSaveText3.appendChild(tdSaveText4);
@@ -79,6 +260,10 @@
         });
     }
     document.addEventListener("DOMContentLoaded", () => {
-        LoadTabulka();
+        getData();
+    })
+    document.querySelectorAll('[name="PridatRoluPico"]')[0].addEventListener("click", (e) => {
+        e.preventDefault();
+        APISend("add", -1, 0);
     })
 </script>

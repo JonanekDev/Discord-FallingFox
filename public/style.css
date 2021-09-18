@@ -157,7 +157,7 @@ body {
 #AdminContent table {
     border-collapse: collapse;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #191919;
     padding: 5px;
     user-select: none;
@@ -184,14 +184,14 @@ body {
 #AdminContentRole table tr td:first-child td {
     width: 30px;
 } 
-#AdminContent table td input[type=text], #AdminContent table td input[type=number] {
+#AdminContent input[type=text], #AdminContent input[type=number] {
     background-color: #212121;
     border: none;
     width: 60%;
     margin: 5px;
     padding: 10px;
 }
-#AdminContent table td .save {
+#AdminContent table td .save, #PridatRolu .Add{
     background-color: #21bc43;
     border: none;
     padding: 5px;
@@ -205,4 +205,13 @@ body {
     padding: 5px;
     font-weight: bold;
     cursor: pointer;
+}
+#PridatRolu {
+    margin-top: 20px;
+    background-color: #191919; 
+    border-radius: 10px;   
+    padding: 15px;
+}
+#PridatRolu input[type=text], #PridatRolu input[type=number] {
+    width: 25%;
 }

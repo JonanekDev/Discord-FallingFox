@@ -35,6 +35,7 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 - API pro zpracovávání úprav v administraci
 - AntiSpam
 - Notifikace na nová videa na Youtube channelu
+- Možnost dát níž nebo výš roly v nastavení rolí za levely
 
 ### Jak spustit bota
 
