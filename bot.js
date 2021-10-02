@@ -21,6 +21,30 @@ client.on("ready", () => {
         client.user.setPresence({ activities: [{ type: status.type, name: status.CONTENT }] });
     }, require("./config.json").meneniStatusuIntervalSekundy * 1000);
     UpdateCountOfUsers();
+    setInterval(() => {
+        const parser = new (require("rss-parser"))();
+        const config = require("./config.json");
+        parser.parseURL("https://www.youtube.com/feeds/videos.xml?channel_id=" + config.youtubeChannelID)
+        .then((data) => {
+            if (data.items[0].id !== config.lastCheckedVideo) {
+                const fs = require("fs");
+                config.lastCheckedVideo = data.items[0].id;
+                console.log("nove video");
+                const NewVideoEmbed = new discord.MessageEmbed()
+                .setTitle("🎉 VYŠLO NOVÉ VIDEO 🎉")
+                .setColor("#bd7739")
+                .setDescription("Na FallingFox kanále aktuálně vyšlo nové video s názvem **" + data.items[0].title + "**, běž se na něj mrknout: \n **" + data.items[0].link + "**")
+                .setTimestamp()
+                .setFooter("FallingFox v3 | Nové video");
+                client.channels.cache.get(config.youtubeNotificationsChannelID).send({ embeds: [NewVideoEmbed], content: data.items[0].link});
+                fs.writeFile("./config.json", JSON.stringify(config), "utf8", (err) => {
+                    if (err) {
+                        console.log("[Error] Nastala chyba při ukládání ID posledního videa. Zkontrolujte permisse souboru config.json")
+                    }
+                })
+            }
+        })
+    }, 60 * 10 * 1000);
     if (process.argv[2] == "regcommands") {
         console.log("[Start] Probíhá registrování příkazů!")
         const { SlashCommandBuilder } = require("@discordjs/builders");

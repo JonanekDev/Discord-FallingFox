@@ -2,23 +2,77 @@
     "leaderboardWeb": "https://fallingfox.eu/",
     "guildID": "701146829504643102",
     "rolesForLevels": [
-        {"roleID": "707578282253746246", "levelNeeded": 30, "roleName": "Věrný fanoušek"},
-        {"roleID": "707578567692648469", "levelNeeded": 80, "roleName": "Dlouhodobý fanoušek"},
-        {"roleID": "707578176884441150", "levelNeeded": 150, "roleName": "Lištička"},
-        {"roleID": "731195588657545276", "levelNeeded": 200, "roleName": "Liška"},
-        {"roleID": "764854642353504287", "levelNeeded": 250, "roleName": "Padající Liška"},
-        {"roleID": "764857315874308146", "levelNeeded": 300, "roleName": "Mafianská Liška"},
-        {"roleID": "764857735832666174", "levelNeeded": 400, "roleName": "Retro Liška"},
-        {"roleID": "764857894373949461", "levelNeeded": 500, "roleName": "CupHead Liška"},
-        {"roleID": "764858829351157801", "levelNeeded": 850, "roleName": "Liška z Bradavic"}
+        {
+            "roleID": "707578282253746246",
+            "levelNeeded": 30,
+            "roleName": "Věrný fanoušek"
+        },
+        {
+            "roleID": "707578567692648469",
+            "levelNeeded": 80,
+            "roleName": "Dlouhodobý fanoušek"
+        },
+        {
+            "roleID": "707578176884441150",
+            "levelNeeded": 150,
+            "roleName": "Lištička"
+        },
+        {
+            "roleID": "731195588657545276",
+            "levelNeeded": 200,
+            "roleName": "Liška"
+        },
+        {
+            "roleID": "764854642353504287",
+            "levelNeeded": 250,
+            "roleName": "Padající Liška"
+        },
+        {
+            "roleID": "764857315874308146",
+            "levelNeeded": 300,
+            "roleName": "Mafianská Liška"
+        },
+        {
+            "roleID": "764857735832666174",
+            "levelNeeded": 400,
+            "roleName": "Retro Liška"
+        },
+        {
+            "roleID": "764857894373949461",
+            "levelNeeded": 500,
+            "roleName": "CupHead Liška"
+        },
+        {
+            "roleID": "764858829351157801",
+            "levelNeeded": 850,
+            "roleName": "Liška z Bradavic"
+        }
     ],
     "linky": [
-        {"nadpis": "Facebook", "link": "https://www.facebook.com/FallingFoxYT"},
-        {"nadpis": "Instagram", "link": "https://www.instagram.com/_fallingfox_/"},
-        {"nadpis": "Twitter", "link": "https://twitter.com/FallingFoxYT"},
-        {"nadpis": "Youtube", "link": "https://www.youtube.com/channel/UCfb8dV6IZdj-t0l9eNae3_Q"},
-        {"nadpis": "Discord invite", "link": "https://invite.gg/fallingfox"},
-        {"nadpis": "GitHub", "link": "https://github.com/fallingfox/"}
+        {
+            "nadpis": "Facebook",
+            "link": "https://www.facebook.com/FallingFoxYT"
+        },
+        {
+            "nadpis": "Instagram",
+            "link": "https://www.instagram.com/_fallingfox_/"
+        },
+        {
+            "nadpis": "Twitter",
+            "link": "https://twitter.com/FallingFoxYT"
+        },
+        {
+            "nadpis": "Youtube",
+            "link": "https://www.youtube.com/channel/UCfb8dV6IZdj-t0l9eNae3_Q"
+        },
+        {
+            "nadpis": "Discord invite",
+            "link": "https://invite.gg/fallingfox"
+        },
+        {
+            "nadpis": "GitHub",
+            "link": "https://github.com/fallingfox/"
+        }
     ],
     "everyoneRoleID": "701146829504643102",
     "adminPermRolesIDs": [
@@ -54,16 +108,40 @@
     ],
     "meneniStatusuIntervalSekundy": 120,
     "permanentniStatusy": [
-        {"type": "WATCHING", "CONTENT": "instagram.com/_fallingfox_"},
-        {"type": "LISTENING", "CONTENT": "your commands!"},
-        {"type": "WATCHING", "CONTENT": "you!"},
-        {"type": "PLAYING", "CONTENT": "Minecraft! /avatar - Zhodnotí tvůj avatar"},
-        {"type": "WATCHING", "CONTENT": "NETFLYX! /počasí [Město] - Zobrazí aktuální počasí v zadaném městě"},
-        {"type": "PLAYING", "CONTENT": "Fortnajt! /level - Zobrazí tvůj aktuální level"},
-        {"type": "WATCHING", "CONTENT": "JDEME ŽRÁT! /random-food - Zobrazí náhodné jídlo"},
-        {"type": "WATCHING", "CONTENT": "SHITTY CODE! github.com/JonanekDev/Discord-FallingFox"}
+        {
+            "type": "WATCHING",
+            "CONTENT": "instagram.com/_fallingfox_"
+        },
+        {
+            "type": "LISTENING",
+            "CONTENT": "your commands!"
+        },
+        {
+            "type": "WATCHING",
+            "CONTENT": "you!"
+        },
+        {
+            "type": "PLAYING",
+            "CONTENT": "Minecraft! /avatar - Zhodnotí tvůj avatar"
+        },
+        {
+            "type": "WATCHING",
+            "CONTENT": "NETFLYX! /počasí [Město] - Zobrazí aktuální počasí v zadaném městě"
+        },
+        {
+            "type": "PLAYING",
+            "CONTENT": "Fortnajt! /level - Zobrazí tvůj aktuální level"
+        },
+        {
+            "type": "WATCHING",
+            "CONTENT": "JDEME ŽRÁT! /random-food - Zobrazí náhodné jídlo"
+        },
+        {
+            "type": "WATCHING",
+            "CONTENT": "SHITTY CODE! github.com/JonanekDev/Discord-FallingFox"
+        }
     ],
-    "anketaChannelID":  "701147769083002920",
+    "anketaChannelID": "701147769083002920",
     "welcomeChannelID": "701147769083002920",
     "roleAfterJoin": "701151772407890029",
     "countOfUsersChannel": "706818021116870656",
@@ -79,5 +157,8 @@
         "To je moc fylozofická otázka."
     ],
     "clientID": "789595209595879445",
-    "redirecturi": "https://fallingfox.eu/administrace/login/DisOAuth2Redirect"
+    "redirecturi": "https://fallingfox.eu/administrace/login/DisOAuth2Redirect",
+    "youtubeNotificationsChannelID": "701147769083002920",
+    "youtubeChannelID": "UCfb8dV6IZdj-t0l9eNae3_Q",
+    "lastCheckedVideo": "yt:video:HXaMdFfaRsY"
 }
