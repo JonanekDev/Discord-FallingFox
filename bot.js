@@ -11,7 +11,7 @@ function UpdateCountOfUsers() {
     }
 }
 
-client.on("ready", () => {
+client.on("ready", async () => {
     console.log("[Start] Přihlášení na DIscord bota bylo úspěšné!");
     client.user.setPresence({ activities: [{ type: "WATCHING", name: "github.com/JonanekDev/Discord-FallingFox" }] });
     setInterval(() => {
@@ -49,6 +49,7 @@ client.on("ready", () => {
         console.log("[Start] Probíhá registrování příkazů!")
         const { SlashCommandBuilder } = require("@discordjs/builders");
         const config = require("./config.json");
+        const guild = await client.guilds.cache.get(config.guildID);
         const LevelCMD = new SlashCommandBuilder()
         .setName("level")
         .setDescription("Zobrazí aktuální tvůj level nebo level zadaného uživatele")
@@ -58,11 +59,11 @@ client.on("ready", () => {
                 .setRequired(false)
             );
     
-        client.application.commands.create(LevelCMD);
+        guild.commands.create(LevelCMD);
         const LevelRoleCMD = new SlashCommandBuilder()
         .setName("levely-role")
         .setDescription("Zobrazí role získatelné získáním určitého levelu");
-        client.application.commands.create(LevelRoleCMD);
+        guild.commands.create(LevelRoleCMD);
 
         const AnketaCMD = new SlashCommandBuilder()
         .setName("anketa")
@@ -73,17 +74,17 @@ client.on("ready", () => {
                 .setRequired(true)
             );
     
-        client.application.commands.create(AnketaCMD);
+        guild.commands.create(AnketaCMD);
 
         const LeaderboardCMD = new SlashCommandBuilder()
         .setName("leaderboard")
         .setDescription("Zobrazí level leaderboard serveru");
-        client.application.commands.create(LeaderboardCMD);
+        guild.commands.create(LeaderboardCMD);
 
         const RandomFoodCMD = new SlashCommandBuilder()
         .setName("random-food")
         .setDescription("Zobrazí náhodné jídlo z Redditu");
-        client.application.commands.create(RandomFoodCMD);
+        guild.commands.create(RandomFoodCMD);
 
         const RandomRedditCMD = new SlashCommandBuilder()
         .setName("random-reddit")
@@ -93,12 +94,12 @@ client.on("ready", () => {
                 .setDescription("Reddit ze, které ho chceš post")
                 .setRequired(true)
             );
-        client.application.commands.create(RandomRedditCMD);
+        guild.commands.create(RandomRedditCMD);
 
         const LinkyCMD = new SlashCommandBuilder()
         .setName("linky")
         .setDescription("Zobrazí důležité linky týkající se FallingFox");
-        client.application.commands.create(LinkyCMD);
+        guild.commands.create(LinkyCMD);
 
         const AvatarCMD = new SlashCommandBuilder()
         .setName("avatar")
@@ -108,7 +109,7 @@ client.on("ready", () => {
                 .setDescription("Uživatele, kterého chceš vidět avatar")
                 .setRequired(false)
             );
-        client.application.commands.create(AvatarCMD);
+        guild.commands.create(AvatarCMD);
 
         const SlapCMD = new SlashCommandBuilder()
         .setName("slap")
@@ -118,7 +119,7 @@ client.on("ready", () => {
                 .setDescription("Uživatele, kterému chceš poslat facku")
                 .setRequired(true)
             );
-        client.application.commands.create(SlapCMD);
+        guild.commands.create(SlapCMD);
 
 
         const BallCMD = new SlashCommandBuilder()
@@ -129,7 +130,7 @@ client.on("ready", () => {
                 .setDescription("Dotaz na, který chceš odpověď")
                 .setRequired(true)
             );
-        client.application.commands.create(BallCMD);
+            guild.commands.create(BallCMD);
 
         const PocasiCMD = new SlashCommandBuilder()
         .setName("počasí")
@@ -139,7 +140,7 @@ client.on("ready", () => {
                 .setDescription("Město ve, kterém chceš vidět město")
                 .setRequired(true)
             );
-        client.application.commands.create(PocasiCMD);
+        guild.commands.create(PocasiCMD);
 
         const UserInfoCMD = new SlashCommandBuilder()
         .setName("user-info")
@@ -149,12 +150,12 @@ client.on("ready", () => {
                 .setDescription("Uživatel o, kterém chceš vědět info")
                 .setRequired(true)
             );
-        client.application.commands.create(UserInfoCMD);
+        guild.commands.create(UserInfoCMD);
 
         const SourceCodeCMD = new SlashCommandBuilder()
         .setName("sourcecode")
         .setDescription("Zobrazí odkaz na GitHub, kde nalezneš můj kód");
-        client.application.commands.create(SourceCodeCMD);
+        guild.commands.create(SourceCodeCMD);
 
         const ClearCMD = new SlashCommandBuilder()
         .setName("clear")
@@ -165,9 +166,9 @@ client.on("ready", () => {
                 .setDescription("Počet zpráv na smazání")
                 .setRequired(true)
             );
-        client.application.commands.create(ClearCMD)
+        guild.commands.create(ClearCMD)
         .then(async (cmd) => {
-            const command = client.application.commands.fetch(cmd.id);
+            const command = await guild.commands.fetch(cmd.id);
             const permissions = [];
             config.adminPermRolesIDs.forEach((role) => {
                 permissions.push({
@@ -181,8 +182,8 @@ client.on("ready", () => {
                 type: "ROLE",
                 permission: false,
             })
-            //TODO: FIX ERROR
             command.permissions.add({ permissions });
+            console.log("[CommandReg] Registrace příkazů proběhla úspěšně!")
         })
     }
 })
