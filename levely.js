@@ -62,10 +62,12 @@ class levely {
             }
             //Výpočet EXP, které dostane uživatel
             let ZiskaneEXP;
-            if (message.content.length < 15){
+            const ZpravaBezSpoileru = message.content.replaceAll("|", "");
+            console.log(ZpravaBezSpoileru.length);
+            if (ZpravaBezSpoileru.length < 15){
                 ZiskaneEXP = 1;
             } else {
-                ZiskaneEXP = Math.round(message.content.length / 15);
+                ZiskaneEXP = Math.round(ZpravaBezSpoileru.length / 15);
             }
 
             //První zpráva

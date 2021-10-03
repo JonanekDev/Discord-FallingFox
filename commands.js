@@ -237,9 +237,11 @@ class commands {
                 interaction.reply({ embeds: [UserInfoEmbed] });
                 break;
 
-            
+            //VYpnutý kvůli nefunčním právům
+            //TODO: FIX
             case "clear":
-                interaction.channel.bulkDelete(interaction.options.getInteger("počet"))
+                interaction.reply({content: "Příkaz je dočastně zakázan."});
+                /*interaction.channel.bulkDelete(interaction.options.getInteger("počet"))
                 .then((del) => {
                     const ClearEmbed = new Discord.MessageEmbed()
                     .setColor("#bd7739")
@@ -248,7 +250,7 @@ class commands {
                     .setTimestamp()
                     .setFooter("FallingFox v3 | " + interaction.user.tag, interaction.user.displayAvatarURL());
                     interaction.reply({ embeds: [ClearEmbed] });
-                })
+                })*/
                 break;
             
             
