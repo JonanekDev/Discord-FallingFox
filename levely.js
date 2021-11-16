@@ -63,7 +63,6 @@ class levely {
             //Výpočet EXP, které dostane uživatel
             let ZiskaneEXP;
             const ZpravaBezSpoileru = message.content.replaceAll("|", "");
-            console.log(ZpravaBezSpoileru.length);
             if (ZpravaBezSpoileru.length < 15){
                 ZiskaneEXP = 1;
             } else {
@@ -72,7 +71,7 @@ class levely {
 
             //První zpráva
             if (result.length < 1){
-                db.query("INSTER INTO Levels (DisUserID, EXP, Level, CountOfMessages) VALUES ('" + message.author.id + "', '" + ZiskaneEXP + "', '1')", (err2) => {
+                db.query("INSERT INTO Levels (DisUserID, EXP, Level, CountOfMessages) VALUES ('" + message.author.id + "', '" + ZiskaneEXP + "', '1')", (err2) => {
                     if (err2) {
                         message.channel.send({ embeds: [new embeds().ErrEmbed("při zapisování uživatele do databáze", "Kontaktujte tvůrce bota <@781556627899547690>", message.author)] });
                         console.log("[ERROR] Nepovedlo se zapsat data z databáze. Zkontroluj jeslti zda MySQL uživatel má správná oprávnění, chyba:" + err2);

@@ -26,10 +26,11 @@ client.on("ready", async () => {
         const config = require("./config.json");
         parser.parseURL("https://www.youtube.com/feeds/videos.xml?channel_id=" + config.youtubeChannelID)
         .then((data) => {
-            if (data.items[0].id !== config.lastCheckedVideo) {
+            if (!config.lastCheckedVideos.includes(data.items[0].id)) {
                 const fs = require("fs");
-                config.lastCheckedVideo = data.items[0].id;
-                console.log("nove video");
+                config.lastCheckedVideos.shift();
+                config.lastCheckedVideos.push(data.items[0].id);
+                //console.log("nove video");
                 const NewVideoEmbed = new discord.MessageEmbed()
                 .setTitle("🎉 VYŠLO NOVÉ VIDEO 🎉")
                 .setColor("#bd7739")

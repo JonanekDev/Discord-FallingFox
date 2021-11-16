@@ -12,7 +12,6 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 - Přidání role po připojení
 - Update channelu s počtem uživatelů
 - Funkční více optimalizovaný webový leaderboard
-- Notifikace na nová videa na Youtube channelu
 - Funkční příkazy:
   - level
   - levely-role
@@ -31,8 +30,11 @@ Btw důvod přespsání celého bota je aktualizace Discord.js na 13
 
 ### TODO:
 
+- Fix chyby při generaci příkazů to se někdy udělá
 - Přidat do administrace přidání rolí přes názvy
 - API pro zpracovávání úprav v administraci
+- AntiSpam
+- Notifikace na nová videa na Youtube channelu
 - Možnost dát níž nebo výš roly v nastavení rolí za levely
 
 ### Jak spustit bota
@@ -111,7 +113,7 @@ ALTER TABLE `Levels`
 }
 ```
 
-- Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot. Na konci se vám do konzole vypíše zpráva, že registrace proběhla úspěšně, může to chvíli trvat musíte počkat. Příkazy také nebudou hned na serveru vidět, ale většinou do pár minut budou vidět
+- Prvně spustíme bota příkaze `npm run start-regcommands`, což registruje všechny příkazy, co má bot (Na konci registrace příkazů bot spadne to je dobře, někdy to musím fixnout...)
 - Poté můžeme bota již spouštět pouze s příkazem `npm start`
 
 #### Chtěl bys vlastního custom bota pro svůj Discord server? Neváhej a napiš mi na Discord Jonanek#0742 nebo email jonas@pinktube.eu
